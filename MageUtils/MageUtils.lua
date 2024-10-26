@@ -252,7 +252,7 @@ local function InitializeMageUtilsDropDown(self, level, menuList)
             local spells = mageSpells[menuList]
             if spells then
                 for _, spell in ipairs(spells) do
-                    info.text = spell.name
+                    info.text = spell.name .. "    "
                     info.icon = spell.icon
                     info.func = function()
                         local spellID = spell.spellID
@@ -269,7 +269,7 @@ local function InitializeMageUtilsDropDown(self, level, menuList)
         if spells then
             for _, spell in ipairs(spells) do
                 local spellFullName = spell.fullName
-                info.text = spellFullName
+                info.text = spellFullName .. "    "
                 info.icon = spell.icon
                 info.func = function()
                     local spellID = spell.spellID

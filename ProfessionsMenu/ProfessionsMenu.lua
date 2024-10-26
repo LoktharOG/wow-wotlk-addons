@@ -102,9 +102,6 @@ local function GetPlayerProfessions()
                 hasProfession = true
                 skillLevel = skillLines[spellName].skillRank
                 maxSkillLevel = skillLines[spellName].skillMaxRank
-                func = function()
-                    CastSpellByName(spellName)
-                end
             end
             table.insert(professions, {
                 name = spellName,
@@ -149,11 +146,11 @@ local function InitializeProfessionsDropDown(self, level)
     for _, prof in ipairs(professions) do
         local info = UIDropDownMenu_CreateInfo()
         if prof.hasProfession then
-            info.text = string.format("%s (%s/%s)", prof.name, prof.skillLevel, prof.maxSkillLevel)
+            info.text = string.format("%s (%s/%s)    ", prof.name , prof.skillLevel, prof.maxSkillLevel)
             info.disabled = false
             info.func = prof.func
         else
-            info.text = string.format("%s (Unknown)", prof.name)
+            info.text = string.format("%s (Unknown)    ", prof.name)
             info.disabled = true
             info.func = nil
         end
