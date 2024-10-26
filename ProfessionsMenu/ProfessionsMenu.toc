@@ -1,0 +1,9 @@
+## Interface: 30300
+## Title: Professions Menu
+## Notes: Adds a movable button that opens a professions dropdown menu
+## Author: Lokthar
+## Version: 1.0
+## SavedVariablesPerCharacter: ProfessionsMenuDB
+## OptionalDeps: Titan
+
+ProfessionsMenu.lua

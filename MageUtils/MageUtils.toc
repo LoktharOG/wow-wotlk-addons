@@ -1,0 +1,9 @@
+## Interface: 30300
+## Title: Mage Utils
+## Notes: A simple addon to manage mage utility spells.
+## Author: Lokthar
+## Version: 1.0
+## SavedVariablesPerCharacter: MageUtilsDB
+## OptionalDeps: Titan
+
+MageUtils.lua
