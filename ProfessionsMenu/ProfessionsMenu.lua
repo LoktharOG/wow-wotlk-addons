@@ -1,3 +1,7 @@
+-- ProfessionsMenu Addon
+-- Version: 1.2
+-- Description: Provides a floating button to access professions and integrates with Titan Panel.
+
 -- Initialize ProfessionsMenuDB if not already set
 ProfessionsMenuDB = ProfessionsMenuDB or {}
 ProfessionsMenuDB.ShowFloatingButton = ProfessionsMenuDB.ShowFloatingButton ~= false -- Default to true
@@ -54,24 +58,26 @@ end
 -- Initialize the dropdown menu frame
 local ProfessionsDropDown = CreateFrame("Frame", "ProfessionsDropDownFrame", UIParent, "UIDropDownMenuTemplate")
 
--- List of profession spell IDs (WotLK)
+-- Expanded list of profession spell IDs including all ranks
 local professionSpellIds = {
-    2259,   -- Alchemy
-    2018,   -- Blacksmithing
-    7411,   -- Enchanting
-    4036,   -- Engineering
-    45357,  -- Inscription
-    25229,  -- Jewelcrafting
-    2108,   -- Leatherworking
-    3908,   -- Tailoring
-    2550,   -- Cooking
-    3273,   -- First Aid
-    2366,   -- Herbalism
-    2575,   -- Mining
-    8613,   -- Skinning
-    7620,   -- Fishing
-    53428,  -- Runeforging
+    Alchemy = {2259, 3101, 3464, 11611, 28596, 51304},
+    Blacksmithing = {2018, 3100, 3538, 9785, 29844, 51300},
+    Enchanting = {7411, 7412, 7413, 13920, 28029, 51313},
+    Engineering = {4036, 4037, 4038, 12656, 20219, 51306},
+    Inscription = {45357, 45358, 45359, 45360, 45361},
+    Jewelcrafting = {25229, 25230, 28894, 28895, 28897, 51311},
+    Leatherworking = {2108, 3104, 3811, 10662, 32549, 51302},
+    Tailoring = {3908, 3909, 3910, 12180, 26790, 51309},
+    Cooking = {2550, 3102, 3413, 18260, 33359},
+    FirstAid = {3273, 3274, 7924, 10846, 27028},
+    Mining = {2575, 2576, 3564, 10248, 29354},
+    Herbalism = {2366, 2368, 3570, 11993, 28695},
+    Skinning = {8613, 8617, 8618, 10768, 32678},
+    Fishing = {7620, 7731, 7732, 18248, 33095},
+    Runeforging = {53428}  -- Only one rank for Runeforging
 }
+
+local gatheringProfessions = {"Skinning", "Herbalism", "Fishing", "Riding"}
 
 -- Function to retrieve the player's professions, including Riding
 local function GetPlayerProfessions()
@@ -90,53 +96,85 @@ local function GetPlayerProfessions()
         end
     end
 
-    -- Process the professions list
-    for _, spellId in ipairs(professionSpellIds) do
-        local spellName, _, spellIcon = GetSpellInfo(spellId)
+    -- Process the professions list, handling gathering professions separately
+    for profession, spellIds in pairs(professionSpellIds) do
         local hasProfession = false
         local skillLevel = "Unknown"
         local maxSkillLevel = "Unknown"
         local func = nil
-        if spellName then
-            if skillLines[spellName] then
-                hasProfession = true
-                skillLevel = skillLines[spellName].skillRank
-                maxSkillLevel = skillLines[spellName].skillMaxRank
+        local spellIcon, spellName = nil, nil
+
+        if profession == "Mining" then
+            -- For Mining, use Smelting spell ID if learned
+            local smeltSpellId = 2656
+            hasProfession = skillLines[profession] ~= nil
+            skillLevel = hasProfession and skillLines[profession].skillRank or "Unknown"
+            maxSkillLevel = hasProfession and skillLines[profession].skillMaxRank or "Unknown"
+            if IsSpellKnown(smeltSpellId) then
+                func = function()
+                    CastSpellByID(smeltSpellId)
+                end
             end
-            table.insert(professions, {
-                name = spellName,
-                icon = spellIcon,
-                hasProfession = hasProfession,
-                skillLevel = skillLevel,
-                maxSkillLevel = maxSkillLevel,
-                func = func
-            })
+            spellName, _, spellIcon = GetSpellInfo(spellIds[1]) -- Use the first icon as a placeholder
+
+        elseif profession == "Skinning" or profession == "Herbalism" or profession == "Fishing" then
+            -- For Skinning, Herbalism, and Fishing, set func to nil (do nothing when clicked)
+            hasProfession = skillLines[profession] ~= nil
+            skillLevel = hasProfession and skillLines[profession].skillRank or "Unknown"
+            maxSkillLevel = hasProfession and skillLines[profession].skillMaxRank or "Unknown"
+            func = nil
+            spellName, _, spellIcon = GetSpellInfo(spellIds[1]) -- Use the first icon as a placeholder
+        else
+            -- Handle other crafting professions
+            for _, spellId in ipairs(spellIds) do
+                spellName, _, spellIcon = GetSpellInfo(spellId)
+                if IsSpellKnown(spellId) then
+                    hasProfession = true
+                    if skillLines[spellName] then
+                        skillLevel = skillLines[spellName].skillRank
+                        maxSkillLevel = skillLines[spellName].skillMaxRank
+                    end
+                    func = function()
+                        CastSpellByID(spellId)
+                    end
+                    break  -- Stop once we find the highest rank they have
+                end
+            end
+        end
+
+        -- Add profession data to the dropdown menu list
+        table.insert(professions, {
+            name = profession,
+            icon = spellIcon,
+            hasProfession = hasProfession,
+            skillLevel = skillLevel,
+            maxSkillLevel = maxSkillLevel,
+            func = func
+        })
+    end
+
+    -- Separate out gathering professions and Riding for special ordering
+    local regularProfessions = {}
+    local specialProfessions = {}
+
+    for _, prof in ipairs(professions) do
+        if tContains(gatheringProfessions, prof.name) or prof.name == "Riding" then
+            table.insert(specialProfessions, prof)
+        else
+            table.insert(regularProfessions, prof)
         end
     end
 
-    -- Add the Riding skill
-    local ridingSkill = skillLines["Riding"]
-    if ridingSkill then
-        table.insert(professions, {
-            name = "Riding",
-            icon = "Interface\\Icons\\Spell_Nature_Swiftness",
-            hasProfession = true,
-            skillLevel = ridingSkill.skillRank,
-            maxSkillLevel = ridingSkill.skillMaxRank,
-            func = nil  -- No action on click
-        })
-    else
-        table.insert(professions, {
-            name = "Riding",
-            icon = "Interface\\Icons\\Spell_Nature_Swiftness",
-            hasProfession = false,
-            skillLevel = "Unknown",
-            maxSkillLevel = "Unknown",
-            func = nil
-        })
+    -- Sort regular and special professions alphabetically
+    table.sort(regularProfessions, function(a, b) return a.name < b.name end)
+    table.sort(specialProfessions, function(a, b) return a.name < b.name end)
+
+    -- Combine sorted lists
+    for _, prof in ipairs(specialProfessions) do
+        table.insert(regularProfessions, prof)
     end
 
-    return professions
+    return regularProfessions
 end
 
 -- Initialize the dropdown menu
@@ -146,11 +184,11 @@ local function InitializeProfessionsDropDown(self, level)
     for _, prof in ipairs(professions) do
         local info = UIDropDownMenu_CreateInfo()
         if prof.hasProfession then
-            info.text = string.format("%s (%s/%s)    ", prof.name , prof.skillLevel, prof.maxSkillLevel)
+            info.text = string.format("%s (%s/%s)", prof.name, prof.skillLevel, prof.maxSkillLevel)
             info.disabled = false
             info.func = prof.func
         else
-            info.text = string.format("%s (Unknown)    ", prof.name)
+            info.text = string.format("%s (Unknown)", prof.name)
             info.disabled = true
             info.func = nil
         end
@@ -187,7 +225,7 @@ local function IntegrateWithTitanPanel()
 
     local ProfessionsTitanPlugin = {
         id = "ProfessionsMenu",
-        version = "1.0",
+        version = "1.2",
         category = "Profession",
         menuText = "ProfessionsMenu",
         buttonTextFunction = "TitanPanelProfessionsMenuButton_GetButtonText",
@@ -219,7 +257,7 @@ local function IntegrateWithTitanPanel()
     local frame = CreateFrame("Button", "TitanPanelProfessionsMenuButton", UIParent, "TitanPanelComboTemplate")
     frame.registry = ProfessionsTitanPlugin
     frame:SetScript("OnClick", TitanPanelProfessionsMenuButton_OnClick)
-    --TitanPanelButton_OnLoad(frame)
+    TitanPanelButton_OnLoad(frame)
 
     print("|cFFFFFF00[Professions Menu]|r Integrated with Titan Panel.")
 end
