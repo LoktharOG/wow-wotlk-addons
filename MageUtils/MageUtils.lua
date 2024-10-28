@@ -94,9 +94,9 @@ local function InitializeMageUtilsDropDown(self, level)
                     -- Show the Teleport Frame
                     MageUtilsHordeTeleportFrame:Show()
                     print("|cFFFFFF00[Mage Utils]|r Teleport frame opened.")
-                end
-         end -- Placeholder
-        info.notCheckable = true
+            end
+        end
+         info.notCheckable = true
         UIDropDownMenu_AddButton(info, level)
         
         -- Portals

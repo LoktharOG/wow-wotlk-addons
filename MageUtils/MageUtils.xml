@@ -10,16 +10,32 @@
             <Anchor point="CENTER"/>
         </Anchors>
         <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface/Tooltips/UI-Tooltip-Border" tile="true">
-        <TileSize>
-            <AbsValue val="32"/>
-        </TileSize>
-        <EdgeSize>
-            <AbsValue val="13"/>
-        </EdgeSize>
-        <BackgroundInsets>
-            <AbsInset left="2" right="2" top="2" bottom="2"/>
-        </BackgroundInsets>
+            <TileSize>
+                <AbsValue val="32"/>
+            </TileSize>
+            <EdgeSize>
+                <AbsValue val="13"/>
+            </EdgeSize>
+            <BackgroundInsets>
+                <AbsInset left="2" right="2" top="2" bottom="2"/>
+            </BackgroundInsets>
         </Backdrop>
+        <Layers>
+            <Layer level="ARTWORK">
+                <FontString name="$parentText" font="Fonts\FRIZQT__.TTF" inherits="GameFontNormal" text="Teleport">
+                    <Anchors>
+                        <Anchor point="BOTTOMRIGHT">
+                            <Offset>
+                            <AbsDimension x="-15" y="5"/>
+                            </Offset>
+                        </Anchor>
+                    </Anchors>
+                    <FontHeight>
+                        <AbsValue val="8"/>
+                    </FontHeight>
+                </FontString>
+            </Layer>
+        </Layers>
         <Frames>
             <!-- Teleport to Stormwind Button -->
             <Button name="$parentTeleportSW" inherits="SecureActionButtonTemplate">
@@ -36,11 +52,8 @@
                 </Layers>
                 <Scripts>
                     <OnLoad>
-                        local swport = GetSpellInfo(3561) <!-- Teleport: Stormwind -->
-                        if swport ~= nil then
-                            self:SetAttribute("type1", "spell")
-                            self:SetAttribute("spell", swport)
-                        end
+                        self:SetAttribute("type1", "spell")
+                        self:SetAttribute("spell", GetSpellInfo(3561))
                     </OnLoad>
                     <OnEnter>
                         GameTooltip:SetOwner(self, ANCHOR_TOPLEFT)
@@ -52,13 +65,14 @@
                     </OnLeave>
                 </Scripts>
             </Button>
+
             <!-- Teleport to Ironforge Button -->
             <Button name="$parentTeleportIF" inherits="SecureActionButtonTemplate">
                 <Size>
                     <AbsDimension x="20" y="20"/>
                 </Size>
                 <Anchors>
-                    <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="40" y="-10"/>
+                    <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="35" y="-10"/>
                 </Anchors>
                 <Layers>
                     <Layer level="BACKGROUND">
@@ -67,11 +81,8 @@
                 </Layers>
                 <Scripts>
                     <OnLoad>
-                        local ifport = GetSpellInfo(3562) <!-- Teleport: Ironforge -->
-                        if ifport ~= nil then
-                            self:SetAttribute("type1", "spell")
-                            self:SetAttribute("spell", ifport)
-                        end
+                        self:SetAttribute("type1", "spell")
+                        self:SetAttribute("spell", GetSpellInfo(3562))
                     </OnLoad>
                     <OnEnter>
                         GameTooltip:SetOwner(self, ANCHOR_TOPLEFT)
@@ -84,14 +95,43 @@
                 </Scripts>
             </Button>
 
-            <Button name="$parentHearth" inherits="SecureActionButtonTemplate">
+            <!-- Teleport to Darnassus Button -->
+            <Button name="$parentTeleportIF" inherits="SecureActionButtonTemplate">
                 <Size>
                     <AbsDimension x="20" y="20"/>
                 </Size>
                 <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="60" y="-10"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentTelDalTexture" file="Interface\Icons\Spell_Arcane_TeleportDarnassus"/>
+                    </Layer>
+                </Layers>
+                <Scripts>
+                    <OnLoad>
+                        self:SetAttribute("type1", "spell")
+                        self:SetAttribute("spell", GetSpellInfo(3565))
+                    </OnLoad>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, ANCHOR_TOPLEFT)
+                        GameTooltip:AddLine("Teleport: Darnassus")
+                        GameTooltip:Show()
+                    </OnEnter>
+                    <OnLeave>
+                        GameTooltip:Hide()
+                    </OnLeave>
+                </Scripts>
+            </Button>
+
+            <Button name="$parentHearth" inherits="SecureActionButtonTemplate">
+                <Size>
+                    <AbsDimension x="15" y="15"/>
+                </Size>
+                <Anchors>
                     <Anchor point="BOTTOM">
                         <Offset>
-                            <AbsDimension x="-80" y="10"/>
+                            <AbsDimension x="-80" y="5"/>
                         </Offset>
                     </Anchor>
                 </Anchors>
@@ -116,9 +156,9 @@
                 </Scripts>
             </Button>     
             
-            <Button name="$parentClose" inherits="OptionsButtonTemplate" text="Close">
+            <Button name="$parentClose" inherits="OptionsButtonTemplate" text=" ">
                     <Size>
-                    <AbsDimension x="60" y="18"/>
+                    <AbsDimension x="40" y="12"/>
                     </Size>
                     <Anchors>
                         <Anchor point="BOTTOM">
@@ -127,6 +167,22 @@
                             </Offset>
                         </Anchor>
                     </Anchors>
+                    <Layers>
+                        <Layer level="ARTWORK">
+                            <FontString name="$parentText" font="Fonts\FRIZQT__.TTF" inherits="GameFontNormal" text="Close">
+                                <Anchors>
+                                    <Anchor point="Center">
+                                        <Offset>
+                                        <AbsDimension x="0" y="0"/>
+                                        </Offset>
+                                    </Anchor>
+                                </Anchors>
+                                <FontHeight>
+                                    <AbsValue val="8"/>
+                                </FontHeight>
+                            </FontString>
+                        </Layer>
+                    </Layers>
                     <Scripts>
                         <OnClick>
                             MageUtilsAllianceTeleportFrame:Hide();
@@ -148,10 +204,8 @@
                 self:StopMovingOrSizing()
             </OnDragStop>
             <OnShow>
-                local runeofPort = GetItemCount(17032)
                 local runeofTele = GetItemCount(17031)
-                MageNugAlliFrameText:SetText("Portal:"..runeofPort)
-                MageNugAlliFrameText2:SetText("Teleport:"..runeofTele)
+                MageUtilsAllianceTeleportFrameText:SetText("Teleport:"..runeofTele)
             </OnShow>
         </Scripts>
     </Frame>
