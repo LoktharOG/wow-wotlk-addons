@@ -91,7 +91,7 @@ local function InitializeMageUtilsDropdown(self, level)
 
     if level == 1 then
         info.text = "Portal"
-        info.func = ShowPortals
+        info.func = function() ShowPortals() end
         UIDropDownMenu_AddButton(info, level)
 
         info.text = "Teleport"
@@ -171,14 +171,5 @@ local function IntegrateWithTitanPanelMageUtils()
     print("|cFFFFFF00[Mage Utils]|r Integrated with Titan Panel.")
 end
 
--- Event frame to handle addon loading
-local mageUtilsEventFrame = CreateFrame("Frame")
-mageUtilsEventFrame:RegisterEvent("ADDON_LOADED")
-mageUtilsEventFrame:SetScript("OnEvent", function(self, event, addonName)
-    if addonName == "MageUtils" then
-        print("|cFFFFFF00[Mage Utils]|r Addon loaded.")
-        UpdateMageUtilsButtonVisibility()
-        IntegrateWithTitanPanelMageUtils()
-        print("|cFFFFFF00[Mage Utils]|r Use /mageutils to toggle floating button.")
-    end
-end)
+IntegrateWithTitanPanelMageUtils()
+UpdateMageUtilsButtonVisibility()
