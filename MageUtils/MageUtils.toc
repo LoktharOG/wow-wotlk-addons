@@ -4,6 +4,7 @@
 ## Author: Lokthar
 ## Version: 1.0
 ## SavedVariables: MageUtilsDB
+## OptionalDeps: Titan
 
 # Main Addon Lua
 MageUtils.lua

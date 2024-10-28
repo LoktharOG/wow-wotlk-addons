@@ -64,7 +64,22 @@ local function InitializeMageUtilsDropDown(self, level)
         -- Teleport
         info = UIDropDownMenu_CreateInfo()
         info.text = "Teleport"
-        info.func = function() print("Teleport clicked") end -- Placeholder
+        info.func = function() 
+            -- Check if player is a Mage and knows the spell
+            local _, class = UnitClass("player")
+            if class ~= "MAGE" then
+                print("|cFFFFFF00[Mage Utils]|r You must be a Mage to use this feature.")
+                return
+            end
+            local spellName = GetSpellInfo(10059) -- Teleport: Stormwind
+            if not spellName then
+                print("|cFFFFFF00[Mage Utils]|r You have not learned Teleport: Stormwind.")
+                return
+            end
+            -- Show the Teleport Frame
+            MageUtilsTeleportFrame:Show()
+            print("|cFFFFFF00[Mage Utils]|r Teleport frame opened.")
+         end -- Placeholder
         info.notCheckable = true
         UIDropDownMenu_AddButton(info, level)
         
@@ -86,7 +101,7 @@ local function InitializeMageUtilsDropDown(self, level)
         -- Submenu items for Conjure
         local parent = UIDROPDOWNMENU_MENU_VALUE
         if parent == "Conjure" then
-            local conjureOptions = {"Food", "Water", "Manage", "Refreshment"}
+            local conjureOptions = {"Food", "Water", "Mana Gem", "Refreshment"}
             for _, option in ipairs(conjureOptions) do
                 local info = UIDropDownMenu_CreateInfo()
                 info.text = option
@@ -120,7 +135,7 @@ SlashCmdList["MAGEUTILS"] = function(msg)
 end
 
 -- Function to handle Titan Panel integration
-local function IntegrateWithTitanPanel()
+local function MageUtils_IntegrateWithTitanPanel()
     local MageUtilsTitanPlugin = {
         id = "MageUtils",
         version = "1.0",
@@ -159,5 +174,5 @@ local function IntegrateWithTitanPanel()
     print("|cFFFFFF00[Mage Utils]|r Integrated with Titan Panel.")
 end
 
-IntegrateWithTitanPanel()
+MageUtils_IntegrateWithTitanPanel()
 UpdateButtonVisibility()
