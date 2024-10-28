@@ -4,7 +4,7 @@
 
 -- Initialize MageUtilsDB if not already set
 MageUtilsDB = MageUtilsDB or {}
-MageUtilsDB.ShowFloatingButton = MageUtilsDB.ShowFloatingButton ~= false -- Default to true
+MageUtilsDB.ShowFloatingButton = MageUtilsDB.ShowFloatingButton
 MageUtilsDB.ButtonPosition = MageUtilsDB.ButtonPosition or {
     point = "CENTER",
     relativePoint = "CENTER",
@@ -38,8 +38,9 @@ mageUtilsButton:SetScript("OnDragStop", function(self)
         xOfs = xOfs,
         yOfs = yOfs,
     }
+
 end)
-mageUtilsButton:SetText("Mage Utils")
+mageUtilsButton:SetText("MageUtils")
 
 -- Function to update the floating button's visibility
 local function UpdateButtonVisibility()
@@ -187,7 +188,7 @@ local function MageUtils_IntegrateWithTitanPanel()
     frame:SetScript("OnClick", TitanPanelMageUtilsButton_OnClick)
 
     print("|cFFFFFF00[Mage Utils]|r Integrated with Titan Panel.")
+    UpdateButtonVisibility()
 end
 
 MageUtils_IntegrateWithTitanPanel()
-UpdateButtonVisibility()

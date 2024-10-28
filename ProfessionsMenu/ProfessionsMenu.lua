@@ -4,7 +4,7 @@
 
 -- Initialize ProfessionsMenuDB if not already set
 ProfessionsMenuDB = ProfessionsMenuDB or {}
-ProfessionsMenuDB.ShowFloatingButton = ProfessionsMenuDB.ShowFloatingButton ~= false -- Default to true
+ProfessionsMenuDB.ShowFloatingButton = ProfessionsMenuDB.ShowFloatingButton
 ProfessionsMenuDB.ButtonPosition = ProfessionsMenuDB.ButtonPosition or {
     point = "CENTER",
     relativePoint = "CENTER",
@@ -252,7 +252,7 @@ local function IntegrateWithTitanPanel()
     frame:SetScript("OnClick", TitanPanelProfessionsMenuButton_OnClick)
 
     print("|cFFFFFF00[Professions Menu]|r Integrated with Titan Panel.")
+    UpdateButtonVisibility()
 end
 
 IntegrateWithTitanPanel()
-UpdateButtonVisibility()
