@@ -4,7 +4,7 @@
     <!-- MageUtils Alliance Teleport Frame -->
     <Frame name="MageUtilsAllianceTeleportFrame" hidden="true" movable="true" enableMouse="true">
         <Size>
-            <AbsDimension x="200" y="75"/>
+            <AbsDimension x="190" y="60"/>
         </Size>
         <Anchors>
             <Anchor point="CENTER"/>
@@ -24,9 +24,9 @@
             <Layer level="ARTWORK">
                 <FontString name="$parentText" font="Fonts\FRIZQT__.TTF" inherits="GameFontNormal" text="Teleport">
                     <Anchors>
-                        <Anchor point="BOTTOMRIGHT">
+                        <Anchor point="BOTTOM">
                             <Offset>
-                            <AbsDimension x="-15" y="5"/>
+                            <AbsDimension x="0" y="20"/>
                             </Offset>
                         </Anchor>
                     </Anchors>
@@ -96,7 +96,7 @@
             </Button>
 
             <!-- Teleport to Darnassus Button -->
-            <Button name="$parentTeleportIF" inherits="SecureActionButtonTemplate">
+            <Button name="$parentTeleportDA" inherits="SecureActionButtonTemplate">
                 <Size>
                     <AbsDimension x="20" y="20"/>
                 </Size>
@@ -124,14 +124,130 @@
                 </Scripts>
             </Button>
 
+            <!-- Teleport to Exodar Button -->
+            <Button name="$parentTeleportEX" inherits="SecureActionButtonTemplate">
+                <Size>
+                    <AbsDimension x="20" y="20"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="85" y="-10"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentTelDalTexture" file="Interface\Icons\Spell_Arcane_TeleportExodar"/>
+                    </Layer>
+                </Layers>
+                <Scripts>
+                    <OnLoad>
+                        self:SetAttribute("type1", "spell")
+                        self:SetAttribute("spell", GetSpellInfo(32271))
+                    </OnLoad>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, ANCHOR_TOPLEFT)
+                        GameTooltip:AddLine("Teleport: Exodar")
+                        GameTooltip:Show()
+                    </OnEnter>
+                    <OnLeave>
+                        GameTooltip:Hide()
+                    </OnLeave>
+                </Scripts>
+            </Button>
+
+            <!-- Teleport to Theramore Button -->
+            <Button name="$parentTeleportTH" inherits="SecureActionButtonTemplate">
+                <Size>
+                    <AbsDimension x="20" y="20"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="110" y="-10"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentTelDalTexture" file="Interface\Icons\Spell_Arcane_TeleportTheramore"/>
+                    </Layer>
+                </Layers>
+                <Scripts>
+                    <OnLoad>
+                        self:SetAttribute("type1", "spell")
+                        self:SetAttribute("spell", GetSpellInfo(49359))
+                    </OnLoad>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, ANCHOR_TOPLEFT)
+                        GameTooltip:AddLine("Teleport: Theramore")
+                        GameTooltip:Show()
+                    </OnEnter>
+                    <OnLeave>
+                        GameTooltip:Hide()
+                    </OnLeave>
+                </Scripts>
+            </Button>
+
+            <!-- Teleport to Shattrath Button -->
+            <Button name="$parentTeleportShat" inherits="SecureActionButtonTemplate">
+                <Size>
+                    <AbsDimension x="20" y="20"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="135" y="-10"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentTelDalTexture" file="Interface\Icons\Spell_Arcane_TeleportShattrath"/>
+                    </Layer>
+                </Layers>
+                <Scripts>
+                    <OnLoad>
+                        self:SetAttribute("type1", "spell")
+                        self:SetAttribute("spell", GetSpellInfo(35715))
+                    </OnLoad>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, ANCHOR_TOPLEFT)
+                        GameTooltip:AddLine("Teleport: Shattrath")
+                        GameTooltip:Show()
+                    </OnEnter>
+                    <OnLeave>
+                        GameTooltip:Hide()
+                    </OnLeave>
+                </Scripts>
+            </Button>
+
+            <!-- Teleport to Dalaran Button -->
+            <Button name="$parentTeleportDal" inherits="SecureActionButtonTemplate">
+                <Size>
+                    <AbsDimension x="20" y="20"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="160" y="-10"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentTelDalTexture" file="Interface\Icons\Spell_Arcane_TeleportDalaran"/>
+                    </Layer>
+                </Layers>
+                <Scripts>
+                    <OnLoad>
+                        self:SetAttribute("type1", "spell")
+                        self:SetAttribute("spell", GetSpellInfo(53140))
+                    </OnLoad>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, ANCHOR_TOPLEFT)
+                        GameTooltip:AddLine("Teleport: Dalaran")
+                        GameTooltip:Show()
+                    </OnEnter>
+                    <OnLeave>
+                        GameTooltip:Hide()
+                    </OnLeave>
+                </Scripts>
+            </Button>
+
             <Button name="$parentHearth" inherits="SecureActionButtonTemplate">
                 <Size>
                     <AbsDimension x="15" y="15"/>
                 </Size>
                 <Anchors>
-                    <Anchor point="BOTTOM">
+                    <Anchor point="BOTTOMLEFT">
                         <Offset>
-                            <AbsDimension x="-80" y="5"/>
+                            <AbsDimension x="10" y="5"/>
                         </Offset>
                     </Anchor>
                 </Anchors>
@@ -205,7 +321,7 @@
             </OnDragStop>
             <OnShow>
                 local runeofTele = GetItemCount(17031)
-                MageUtilsAllianceTeleportFrameText:SetText("Teleport:"..runeofTele)
+                MageUtilsAllianceTeleportFrameText:SetText("Rune of Teleportation: "..runeofTele)
             </OnShow>
         </Scripts>
     </Frame>
@@ -213,7 +329,7 @@
     <!-- MageUtils Horde Teleport Frame -->
     <Frame name="MageUtilsHordeTeleportFrame" hidden="true" movable="true" enableMouse="true">
         <Size>
-            <AbsDimension x="200" y="100"/>
+            <AbsDimension x="190" y="60"/>
         </Size>
         <Anchors>
             <Anchor point="CENTER"/>
@@ -229,6 +345,22 @@
             <AbsInset left="2" right="2" top="2" bottom="2"/>
         </BackgroundInsets>
         </Backdrop>
+        <Layers>
+            <Layer level="ARTWORK">
+                <FontString name="$parentText" font="Fonts\FRIZQT__.TTF" inherits="GameFontNormal" text="Teleport">
+                    <Anchors>
+                        <Anchor point="BOTTOM">
+                            <Offset>
+                            <AbsDimension x="0" y="20"/>
+                            </Offset>
+                        </Anchor>
+                    </Anchors>
+                    <FontHeight>
+                        <AbsValue val="8"/>
+                    </FontHeight>
+                </FontString>
+            </Layer>
+        </Layers>
         <Frames>
             <!-- Teleport to Orgrimmar Button -->
             <Button name="$parentTeleportOG" inherits="SecureActionButtonTemplate">
@@ -245,11 +377,8 @@
                 </Layers>
                 <Scripts>
                     <OnLoad>
-                        local swport = GetSpellInfo(3567) <!-- Teleport: Orgrimmar -->
-                        if swport ~= nil then
-                            self:SetAttribute("type1", "spell")
-                            self:SetAttribute("spell", swport)
-                        end
+                        self:SetAttribute("type1", "spell")
+                        self:SetAttribute("spell", GetSpellInfo(3567))
                     </OnLoad>
                     <OnEnter>
                         GameTooltip:SetOwner(self, ANCHOR_TOPLEFT)
@@ -262,14 +391,188 @@
                 </Scripts>
             </Button>
 
-            <Button name="$parentHearth" inherits="SecureActionButtonTemplate">
+            <!-- Teleport to Undercity Button -->
+            <Button name="$parentTeleportUC" inherits="SecureActionButtonTemplate">
                 <Size>
                     <AbsDimension x="20" y="20"/>
                 </Size>
                 <Anchors>
-                    <Anchor point="BOTTOM">
+                    <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="35" y="-10"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentTelDalTexture" file="Interface\Icons\Spell_Arcane_TeleportUndercity"/>
+                    </Layer>
+                </Layers>
+                <Scripts>
+                    <OnLoad>
+                        self:SetAttribute("type1", "spell")
+                        self:SetAttribute("spell", GetSpellInfo(3563))
+                    </OnLoad>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, ANCHOR_TOPLEFT)
+                        GameTooltip:AddLine("Teleport: Undercity")
+                        GameTooltip:Show()
+                    </OnEnter>
+                    <OnLeave>
+                        GameTooltip:Hide()
+                    </OnLeave>
+                </Scripts>
+            </Button>
+
+            <!-- Teleport to Thunder Bluff Button -->
+            <Button name="$parentTeleportTB" inherits="SecureActionButtonTemplate">
+                <Size>
+                    <AbsDimension x="20" y="20"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="60" y="-10"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentTelDalTexture" file="Interface\Icons\Spell_Arcane_TeleportThunderbluff"/>
+                    </Layer>
+                </Layers>
+                <Scripts>
+                    <OnLoad>
+                        self:SetAttribute("type1", "spell")
+                        self:SetAttribute("spell", GetSpellInfo(3566))
+                    </OnLoad>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, ANCHOR_TOPLEFT)
+                        GameTooltip:AddLine("Teleport: Thunder Bluff")
+                        GameTooltip:Show()
+                    </OnEnter>
+                    <OnLeave>
+                        GameTooltip:Hide()
+                    </OnLeave>
+                </Scripts>
+            </Button>
+
+            <!-- Teleport to Silvermoon Button-->
+            <Button name="$parentTeleportSM" inherits="SecureActionButtonTemplate">
+                <Size>
+                    <AbsDimension x="20" y="20"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="85" y="-10"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentTelDalTexture" file="Interface\Icons\Spell_Arcane_TeleportSilvermoon"/>
+                    </Layer>
+                </Layers>
+                <Scripts>
+                    <OnLoad>
+                        self:SetAttribute("type1", "spell")
+                        self:SetAttribute("spell", GetSpellInfo(32272))
+                    </OnLoad>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, ANCHOR_TOPLEFT)
+                        GameTooltip:AddLine("Teleport: Silvermoon")
+                        GameTooltip:Show()
+                    </OnEnter>
+                    <OnLeave>
+                        GameTooltip:Hide()
+                    </OnLeave>
+                </Scripts>
+            </Button>
+
+            <!-- Teleport to Stonard Button -->
+            <Button name="$parentTeleportST" inherits="SecureActionButtonTemplate">
+                <Size>
+                    <AbsDimension x="20" y="20"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="110" y="-10"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentTelDalTexture" file="Interface\Icons\Spell_Arcane_TeleportStonard"/>
+                    </Layer>
+                </Layers>
+                <Scripts>
+                    <OnLoad>
+                        self:SetAttribute("type1", "spell")
+                        self:SetAttribute("spell", GetSpellInfo(49358))
+                    </OnLoad>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, ANCHOR_TOPLEFT)
+                        GameTooltip:AddLine("Teleport: Stonard")
+                        GameTooltip:Show()
+                    </OnEnter>
+                    <OnLeave>
+                        GameTooltip:Hide()
+                    </OnLeave>
+                </Scripts>
+            </Button>
+
+            <!-- Teleport to Shattrath Button -->
+            <Button name="$parentTeleportShat" inherits="SecureActionButtonTemplate">
+                <Size>
+                    <AbsDimension x="20" y="20"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="135" y="-10"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentTelDalTexture" file="Interface\Icons\Spell_Arcane_TeleportShattrath"/>
+                    </Layer>
+                </Layers>
+                <Scripts>
+                    <OnLoad>
+                        self:SetAttribute("type1", "spell")
+                        self:SetAttribute("spell", GetSpellInfo(35715))
+                    </OnLoad>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, ANCHOR_TOPLEFT)
+                        GameTooltip:AddLine("Teleport: Shattrath")
+                        GameTooltip:Show()
+                    </OnEnter>
+                    <OnLeave>
+                        GameTooltip:Hide()
+                    </OnLeave>
+                </Scripts>
+            </Button>
+
+            <!-- Teleport to Dalaran Button -->
+            <Button name="$parentTeleportDal" inherits="SecureActionButtonTemplate">
+                <Size>
+                    <AbsDimension x="20" y="20"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="160" y="-10"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentTelDalTexture" file="Interface\Icons\Spell_Arcane_TeleportDalaran"/>
+                    </Layer>
+                </Layers>
+                <Scripts>
+                    <OnLoad>
+                        self:SetAttribute("type1", "spell")
+                        self:SetAttribute("spell", GetSpellInfo(53140))
+                    </OnLoad>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, ANCHOR_TOPLEFT)
+                        GameTooltip:AddLine("Teleport: Dalaran")
+                        GameTooltip:Show()
+                    </OnEnter>
+                    <OnLeave>
+                        GameTooltip:Hide()
+                    </OnLeave>
+                </Scripts>
+            </Button>
+
+            <Button name="$parentHearth" inherits="SecureActionButtonTemplate">
+                <Size>
+                    <AbsDimension x="15" y="15"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="BOTTOMLEFT">
                         <Offset>
-                            <AbsDimension x="-80" y="10"/>
+                            <AbsDimension x="10" y="5"/>
                         </Offset>
                     </Anchor>
                 </Anchors>
@@ -294,7 +597,7 @@
                 </Scripts>
             </Button>     
             
-            <Button name="$parentClose" inherits="OptionsButtonTemplate" text="Close">
+            <Button name="$parentClose" inherits="OptionsButtonTemplate" text=" ">
                     <Size>
                     <AbsDimension x="40" y="12"/>
                     </Size>
@@ -305,6 +608,22 @@
                             </Offset>
                         </Anchor>
                     </Anchors>
+                    <Layers>
+                        <Layer level="ARTWORK">
+                            <FontString name="$parentText" font="Fonts\FRIZQT__.TTF" inherits="GameFontNormal" text="Close">
+                                <Anchors>
+                                    <Anchor point="Center">
+                                        <Offset>
+                                        <AbsDimension x="0" y="0"/>
+                                        </Offset>
+                                    </Anchor>
+                                </Anchors>
+                                <FontHeight>
+                                    <AbsValue val="8"/>
+                                </FontHeight>
+                            </FontString>
+                        </Layer>
+                    </Layers>
                     <Scripts>
                         <OnClick>
                             MageUtilsHordeTeleportFrame:Hide();
@@ -325,6 +644,833 @@
             <OnDragStop>
                 self:StopMovingOrSizing()
             </OnDragStop>
+            <OnShow>
+                local runeofTele = GetItemCount(17031)
+                MageUtilsHordeTeleportFrameText:SetText("Rune of Teleportation: "..runeofTele)
+            </OnShow>
+        </Scripts>
+    </Frame>
+
+        <!-- MageUtils Alliance Portal Frame -->
+    <Frame name="MageUtilsAlliancePortalFrame" hidden="true" movable="true" enableMouse="true">
+        <Size>
+            <AbsDimension x="190" y="60"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER"/>
+        </Anchors>
+        <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface/Tooltips/UI-Tooltip-Border" tile="true">
+            <TileSize>
+                <AbsValue val="32"/>
+            </TileSize>
+            <EdgeSize>
+                <AbsValue val="13"/>
+            </EdgeSize>
+            <BackgroundInsets>
+                <AbsInset left="2" right="2" top="2" bottom="2"/>
+            </BackgroundInsets>
+        </Backdrop>
+        <Layers>
+            <Layer level="ARTWORK">
+                <FontString name="$parentText" font="Fonts\FRIZQT__.TTF" inherits="GameFontNormal" text="Portal">
+                    <Anchors>
+                        <Anchor point="BOTTOM">
+                            <Offset>
+                            <AbsDimension x="0" y="20"/>
+                            </Offset>
+                        </Anchor>
+                    </Anchors>
+                    <FontHeight>
+                        <AbsValue val="8"/>
+                    </FontHeight>
+                </FontString>
+            </Layer>
+        </Layers>
+        <Frames>
+            <!-- Portal to Stormwind Button -->
+            <Button name="$parentPortalSW" inherits="SecureActionButtonTemplate">
+                <Size>
+                    <AbsDimension x="20" y="20"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="10" y="-10"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentTelDalTexture" file="Interface\Icons\Spell_Arcane_PortalStormwind"/>
+                    </Layer>
+                </Layers>
+                <Scripts>
+                    <OnLoad>
+                        self:SetAttribute("type1", "spell")
+                        self:SetAttribute("spell", GetSpellInfo(10059))
+                    </OnLoad>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, ANCHOR_TOPLEFT)
+                        GameTooltip:AddLine("Portal: Stormwind")
+                        GameTooltip:Show()
+                    </OnEnter>
+                    <OnLeave>
+                        GameTooltip:Hide()
+                    </OnLeave>
+                </Scripts>
+            </Button>
+
+            <!-- Portal to Ironforge Button -->
+            <Button name="$parentPortalIF" inherits="SecureActionButtonTemplate">
+                <Size>
+                    <AbsDimension x="20" y="20"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="35" y="-10"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentTelDalTexture" file="Interface\Icons\Spell_Arcane_PortalIronforge"/>
+                    </Layer>
+                </Layers>
+                <Scripts>
+                    <OnLoad>
+                        self:SetAttribute("type1", "spell")
+                        self:SetAttribute("spell", GetSpellInfo(11416))
+                    </OnLoad>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, ANCHOR_TOPLEFT)
+                        GameTooltip:AddLine("Portal: Ironforge")
+                        GameTooltip:Show()
+                    </OnEnter>
+                    <OnLeave>
+                        GameTooltip:Hide()
+                    </OnLeave>
+                </Scripts>
+            </Button>
+
+            <!-- Portal to Darnassus Button -->
+            <Button name="$parentPortalDA" inherits="SecureActionButtonTemplate">
+                <Size>
+                    <AbsDimension x="20" y="20"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="60" y="-10"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentTelDalTexture" file="Interface\Icons\Spell_Arcane_PortalDarnassus"/>
+                    </Layer>
+                </Layers>
+                <Scripts>
+                    <OnLoad>
+                        self:SetAttribute("type1", "spell")
+                        self:SetAttribute("spell", GetSpellInfo(11419))
+                    </OnLoad>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, ANCHOR_TOPLEFT)
+                        GameTooltip:AddLine("Portal: Darnassus")
+                        GameTooltip:Show()
+                    </OnEnter>
+                    <OnLeave>
+                        GameTooltip:Hide()
+                    </OnLeave>
+                </Scripts>
+            </Button>
+
+            <!-- Portal to Exodar Button -->
+            <Button name="$parentPortalEX" inherits="SecureActionButtonTemplate">
+                <Size>
+                    <AbsDimension x="20" y="20"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="85" y="-10"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentTelDalTexture" file="Interface\Icons\Spell_Arcane_PortalExodar"/>
+                    </Layer>
+                </Layers>
+                <Scripts>
+                    <OnLoad>
+                        self:SetAttribute("type1", "spell")
+                        self:SetAttribute("spell", GetSpellInfo(32266))
+                    </OnLoad>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, ANCHOR_TOPLEFT)
+                        GameTooltip:AddLine("Portal: Exodar")
+                        GameTooltip:Show()
+                    </OnEnter>
+                    <OnLeave>
+                        GameTooltip:Hide()
+                    </OnLeave>
+                </Scripts>
+            </Button>
+
+            <!-- Portal to Theramore Button -->
+            <Button name="$parentPortalTH" inherits="SecureActionButtonTemplate">
+                <Size>
+                    <AbsDimension x="20" y="20"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="110" y="-10"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentTelDalTexture" file="Interface\Icons\Spell_Arcane_PortalTheramore"/>
+                    </Layer>
+                </Layers>
+                <Scripts>
+                    <OnLoad>
+                        self:SetAttribute("type1", "spell")
+                        self:SetAttribute("spell", GetSpellInfo(49360))
+                    </OnLoad>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, ANCHOR_TOPLEFT)
+                        GameTooltip:AddLine("Portal: Theramore")
+                        GameTooltip:Show()
+                    </OnEnter>
+                    <OnLeave>
+                        GameTooltip:Hide()
+                    </OnLeave>
+                </Scripts>
+            </Button>
+
+            <!-- Portal to Shattrath Button -->
+            <Button name="$parentPortalShat" inherits="SecureActionButtonTemplate">
+                <Size>
+                    <AbsDimension x="20" y="20"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="135" y="-10"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentTelDalTexture" file="Interface\Icons\Spell_Arcane_PortalShattrath"/>
+                    </Layer>
+                </Layers>
+                <Scripts>
+                    <OnLoad>
+                        self:SetAttribute("type1", "spell")
+                        self:SetAttribute("spell", GetSpellInfo(35717))
+                    </OnLoad>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, ANCHOR_TOPLEFT)
+                        GameTooltip:AddLine("Portal: Shattrath")
+                        GameTooltip:Show()
+                    </OnEnter>
+                    <OnLeave>
+                        GameTooltip:Hide()
+                    </OnLeave>
+                </Scripts>
+            </Button>
+
+            <!-- Portal to Dalaran Button -->
+            <Button name="$parentPortalDal" inherits="SecureActionButtonTemplate">
+                <Size>
+                    <AbsDimension x="20" y="20"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="160" y="-10"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentTelDalTexture" file="Interface\Icons\Spell_Arcane_PortalDalaran"/>
+                    </Layer>
+                </Layers>
+                <Scripts>
+                    <OnLoad>
+                        self:SetAttribute("type1", "spell")
+                        self:SetAttribute("spell", GetSpellInfo(53142))
+                    </OnLoad>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, ANCHOR_TOPLEFT)
+                        GameTooltip:AddLine("Portal: Dalaran")
+                        GameTooltip:Show()
+                    </OnEnter>
+                    <OnLeave>
+                        GameTooltip:Hide()
+                    </OnLeave>
+                </Scripts>
+            </Button>
+
+            <Button name="$parentClose" inherits="OptionsButtonTemplate" text=" ">
+                    <Size>
+                    <AbsDimension x="40" y="12"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="BOTTOM">
+                            <Offset>
+                            <AbsDimension x="0" y="5"/>
+                            </Offset>
+                        </Anchor>
+                    </Anchors>
+                    <Layers>
+                        <Layer level="ARTWORK">
+                            <FontString name="$parentText" font="Fonts\FRIZQT__.TTF" inherits="GameFontNormal" text="Close">
+                                <Anchors>
+                                    <Anchor point="Center">
+                                        <Offset>
+                                        <AbsDimension x="0" y="0"/>
+                                        </Offset>
+                                    </Anchor>
+                                </Anchors>
+                                <FontHeight>
+                                    <AbsValue val="8"/>
+                                </FontHeight>
+                            </FontString>
+                        </Layer>
+                    </Layers>
+                    <Scripts>
+                        <OnClick>
+                            MageUtilsAlliancePortalFrame:Hide();
+                        </OnClick>
+                    </Scripts>
+            </Button>
+        </Frames>
+
+        <!-- Make the frame draggable -->
+        <Scripts>
+            <OnLoad>
+                self:SetMovable(true)
+                self:RegisterForDrag("LeftButton")
+            </OnLoad>
+            <OnDragStart>
+                self:StartMoving()
+            </OnDragStart>
+            <OnDragStop>
+                self:StopMovingOrSizing()
+            </OnDragStop>
+            <OnShow>
+                local runeofPort = GetItemCount(17032)
+                MageUtilsAlliancePortalFrameText:SetText("Rune of Portals: "..runeofPort)
+            </OnShow>
+        </Scripts>
+    </Frame>
+
+    <!-- MageUtils Horde Portal Frame -->
+    <Frame name="MageUtilsHordePortalFrame" hidden="true" movable="true" enableMouse="true">
+        <Size>
+            <AbsDimension x="190" y="60"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER"/>
+        </Anchors>
+        <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface/Tooltips/UI-Tooltip-Border" tile="true">
+        <TileSize>
+            <AbsValue val="32"/>
+        </TileSize>
+        <EdgeSize>
+            <AbsValue val="13"/>
+        </EdgeSize>
+        <BackgroundInsets>
+            <AbsInset left="2" right="2" top="2" bottom="2"/>
+        </BackgroundInsets>
+        </Backdrop>
+        <Layers>
+            <Layer level="ARTWORK">
+                <FontString name="$parentText" font="Fonts\FRIZQT__.TTF" inherits="GameFontNormal" text="Portal">
+                    <Anchors>
+                        <Anchor point="BOTTOM">
+                            <Offset>
+                            <AbsDimension x="0" y="20"/>
+                            </Offset>
+                        </Anchor>
+                    </Anchors>
+                    <FontHeight>
+                        <AbsValue val="8"/>
+                    </FontHeight>
+                </FontString>
+            </Layer>
+        </Layers>
+        <Frames>
+            <!-- Portal to Orgrimmar Button -->
+            <Button name="$parentPortalOG" inherits="SecureActionButtonTemplate">
+                <Size>
+                    <AbsDimension x="20" y="20"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="10" y="-10"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentTelDalTexture" file="Interface\Icons\Spell_Arcane_PortalOrgrimmar"/>
+                    </Layer>
+                </Layers>
+                <Scripts>
+                    <OnLoad>
+                        self:SetAttribute("type1", "spell")
+                        self:SetAttribute("spell", GetSpellInfo(11417))
+                    </OnLoad>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, ANCHOR_TOPLEFT)
+                        GameTooltip:AddLine("Portal: Orgrimmar")
+                        GameTooltip:Show()
+                    </OnEnter>
+                    <OnLeave>
+                        GameTooltip:Hide()
+                    </OnLeave>
+                </Scripts>
+            </Button>
+
+            <!-- Portal to Undercity Button -->
+            <Button name="$parentPortalUC" inherits="SecureActionButtonTemplate">
+                <Size>
+                    <AbsDimension x="20" y="20"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="35" y="-10"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentTelDalTexture" file="Interface\Icons\Spell_Arcane_PortalUndercity"/>
+                    </Layer>
+                </Layers>
+                <Scripts>
+                    <OnLoad>
+                        self:SetAttribute("type1", "spell")
+                        self:SetAttribute("spell", GetSpellInfo(11418))
+                    </OnLoad>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, ANCHOR_TOPLEFT)
+                        GameTooltip:AddLine("Portal: Undercity")
+                        GameTooltip:Show()
+                    </OnEnter>
+                    <OnLeave>
+                        GameTooltip:Hide()
+                    </OnLeave>
+                </Scripts>
+            </Button>
+
+            <!-- Portal to Thunder Bluff Button -->
+            <Button name="$parentPortalTB" inherits="SecureActionButtonTemplate">
+                <Size>
+                    <AbsDimension x="20" y="20"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="60" y="-10"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentTelDalTexture" file="Interface\Icons\Spell_Arcane_PortalThunderbluff"/>
+                    </Layer>
+                </Layers>
+                <Scripts>
+                    <OnLoad>
+                        self:SetAttribute("type1", "spell")
+                        self:SetAttribute("spell", GetSpellInfo(11420))
+                    </OnLoad>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, ANCHOR_TOPLEFT)
+                        GameTooltip:AddLine("Portal: Thunder Bluff")
+                        GameTooltip:Show()
+                    </OnEnter>
+                    <OnLeave>
+                        GameTooltip:Hide()
+                    </OnLeave>
+                </Scripts>
+            </Button>
+
+            <!-- Portal to Silvermoon Button-->
+            <Button name="$parentPortalSM" inherits="SecureActionButtonTemplate">
+                <Size>
+                    <AbsDimension x="20" y="20"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="85" y="-10"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentTelDalTexture" file="Interface\Icons\Spell_Arcane_PortalSilvermoon"/>
+                    </Layer>
+                </Layers>
+                <Scripts>
+                    <OnLoad>
+                        self:SetAttribute("type1", "spell")
+                        self:SetAttribute("spell", GetSpellInfo(32267))
+                    </OnLoad>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, ANCHOR_TOPLEFT)
+                        GameTooltip:AddLine("Portal: Silvermoon")
+                        GameTooltip:Show()
+                    </OnEnter>
+                    <OnLeave>
+                        GameTooltip:Hide()
+                    </OnLeave>
+                </Scripts>
+            </Button>
+
+            <!-- Portal to Stonard Button -->
+            <Button name="$parentPortalST" inherits="SecureActionButtonTemplate">
+                <Size>
+                    <AbsDimension x="20" y="20"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="110" y="-10"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentTelDalTexture" file="Interface\Icons\Spell_Arcane_PortalStonard"/>
+                    </Layer>
+                </Layers>
+                <Scripts>
+                    <OnLoad>
+                        self:SetAttribute("type1", "spell")
+                        self:SetAttribute("spell", GetSpellInfo(49361))
+                    </OnLoad>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, ANCHOR_TOPLEFT)
+                        GameTooltip:AddLine("Portal: Stonard")
+                        GameTooltip:Show()
+                    </OnEnter>
+                    <OnLeave>
+                        GameTooltip:Hide()
+                    </OnLeave>
+                </Scripts>
+            </Button>
+
+            <!-- Portal to Shattrath Button -->
+            <Button name="$parentPortalShat" inherits="SecureActionButtonTemplate">
+                <Size>
+                    <AbsDimension x="20" y="20"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="135" y="-10"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentTelDalTexture" file="Interface\Icons\Spell_Arcane_PortalShattrath"/>
+                    </Layer>
+                </Layers>
+                <Scripts>
+                    <OnLoad>
+                        self:SetAttribute("type1", "spell")
+                        self:SetAttribute("spell", GetSpellInfo(35717))
+                    </OnLoad>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, ANCHOR_TOPLEFT)
+                        GameTooltip:AddLine("Portal: Shattrath")
+                        GameTooltip:Show()
+                    </OnEnter>
+                    <OnLeave>
+                        GameTooltip:Hide()
+                    </OnLeave>
+                </Scripts>
+            </Button>
+
+            <!-- Portal to Dalaran Button -->
+            <Button name="$parentPortalDal" inherits="SecureActionButtonTemplate">
+                <Size>
+                    <AbsDimension x="20" y="20"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="160" y="-10"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentTelDalTexture" file="Interface\Icons\Spell_Arcane_PortalDalaran"/>
+                    </Layer>
+                </Layers>
+                <Scripts>
+                    <OnLoad>
+                        self:SetAttribute("type1", "spell")
+                        self:SetAttribute("spell", GetSpellInfo(53142))
+                    </OnLoad>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, ANCHOR_TOPLEFT)
+                        GameTooltip:AddLine("Portal: Dalaran")
+                        GameTooltip:Show()
+                    </OnEnter>
+                    <OnLeave>
+                        GameTooltip:Hide()
+                    </OnLeave>
+                </Scripts>
+            </Button>   
+            
+            <Button name="$parentClose" inherits="OptionsButtonTemplate" text=" ">
+                    <Size>
+                    <AbsDimension x="40" y="12"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="BOTTOM">
+                            <Offset>
+                            <AbsDimension x="0" y="5"/>
+                            </Offset>
+                        </Anchor>
+                    </Anchors>
+                    <Layers>
+                        <Layer level="ARTWORK">
+                            <FontString name="$parentText" font="Fonts\FRIZQT__.TTF" inherits="GameFontNormal" text="Close">
+                                <Anchors>
+                                    <Anchor point="Center">
+                                        <Offset>
+                                        <AbsDimension x="0" y="0"/>
+                                        </Offset>
+                                    </Anchor>
+                                </Anchors>
+                                <FontHeight>
+                                    <AbsValue val="8"/>
+                                </FontHeight>
+                            </FontString>
+                        </Layer>
+                    </Layers>
+                    <Scripts>
+                        <OnClick>
+                            MageUtilsHordePortalFrame:Hide();
+                        </OnClick>
+                    </Scripts>
+            </Button>
+        </Frames>
+
+        <!-- Make the frame draggable -->
+        <Scripts>
+            <OnLoad>
+                self:SetMovable(true)
+                self:RegisterForDrag("LeftButton")
+            </OnLoad>
+            <OnDragStart>
+                self:StartMoving()
+            </OnDragStart>
+            <OnDragStop>
+                self:StopMovingOrSizing()
+            </OnDragStop>
+            <OnShow>
+                local runeofPort = GetItemCount(17032)
+                MageUtilsHordePortalFrameText:SetText("Rune of Portals: "..runeofPort)
+            </OnShow>
+        </Scripts>
+    </Frame>
+
+    <!-- MageUtils Conjuration Frame -->
+    <Frame name="MageUtilsConjurationFrame" hidden="true" movable="true" enableMouse="true">
+        <Size>
+            <AbsDimension x="140" y="60"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER"/>
+        </Anchors>
+        <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface/Tooltips/UI-Tooltip-Border" tile="true">
+        <TileSize>
+            <AbsValue val="32"/>
+        </TileSize>
+        <EdgeSize>
+            <AbsValue val="13"/>
+        </EdgeSize>
+        <BackgroundInsets>
+            <AbsInset left="2" right="2" top="2" bottom="2"/>
+        </BackgroundInsets>
+        </Backdrop>
+                <Layers>
+            <Layer level="ARTWORK">
+                <FontString name="$parentText" font="Fonts\FRIZQT__.TTF" inherits="GameFontNormal" text="Powder">
+                    <Anchors>
+                        <Anchor point="BOTTOM">
+                            <Offset>
+                            <AbsDimension x="0" y="20"/>
+                            </Offset>
+                        </Anchor>
+                    </Anchors>
+                    <FontHeight>
+                        <AbsValue val="8"/>
+                    </FontHeight>
+                </FontString>
+            </Layer>
+        </Layers>
+        <Frames>
+            <!-- Conjure Water Button -->
+            <Button name="$parentConjureWater" inherits="SecureActionButtonTemplate">
+                <Size>
+                    <AbsDimension x="20" y="20"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="10" y="-10"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentTexture" file="Interface\Icons\inv_drink_06"/>
+                    </Layer>
+                </Layers>
+                <Scripts>
+                    <OnLoad>
+                        self:SetAttribute("type1", "spell")
+                        self:SetAttribute("spell", GetSpellInfo(5504))
+                    </OnLoad>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, ANCHOR_TOPLEFT)
+                        GameTooltip:AddLine("Conjure Water")
+                        GameTooltip:Show()
+                    </OnEnter>
+                    <OnLeave>
+                        GameTooltip:Hide()
+                    </OnLeave>
+                </Scripts>
+            </Button>
+
+            <!-- Conjure Food Button -->
+            <Button name="$parentConjureFood" inherits="SecureActionButtonTemplate">
+                <Size>
+                    <AbsDimension x="20" y="20"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="35" y="-10"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentTexture" file="Interface\Icons\inv_misc_food_10"/>
+                    </Layer>
+                </Layers>
+                <Scripts>
+                    <OnLoad>
+                        self:SetAttribute("type1", "spell")
+                        self:SetAttribute("spell", GetSpellInfo(587))
+                    </OnLoad>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, ANCHOR_TOPLEFT)
+                        GameTooltip:AddLine("Conjure Food")
+                        GameTooltip:Show()
+                    </OnEnter>
+                    <OnLeave>
+                        GameTooltip:Hide()
+                    </OnLeave>
+                </Scripts>
+            </Button>
+
+            <!-- Conjure Mana Gem Button -->
+            <Button name="$parentConjureManaGem" inherits="SecureActionButtonTemplate">
+                <Size>
+                    <AbsDimension x="20" y="20"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="60" y="-10"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentTexture" file="Interface\Icons\inv_misc_gem_emerald_01"/>
+                    </Layer>
+                </Layers>
+                <Scripts>
+                    <OnLoad>
+                        self:SetAttribute("type1", "spell")
+                        self:SetAttribute("spell", GetSpellInfo(759))
+                    </OnLoad>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, ANCHOR_TOPLEFT)
+                        GameTooltip:AddLine("Conjure Mana Gem")
+                        GameTooltip:Show()
+                    </OnEnter>
+                    <OnLeave>
+                        GameTooltip:Hide()
+                    </OnLeave>
+                </Scripts>
+            </Button>
+
+            
+            <!-- Conjure Refreshment Button -->
+            <Button name="$parentConjureRefreshment" inherits="SecureActionButtonTemplate">
+                <Size>
+                    <AbsDimension x="20" y="20"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="85" y="-10"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentTexture" file="Interface\Icons\ability_mage_conjurefoodrank9"/>
+                    </Layer>
+                </Layers>
+                <Scripts>
+                    <OnLoad>
+                        self:SetAttribute("type1", "spell")
+                        self:SetAttribute("spell", GetSpellInfo(42955))
+                    </OnLoad>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, ANCHOR_TOPLEFT)
+                        GameTooltip:AddLine("Conjure Refreshment")
+                        GameTooltip:Show()
+                    </OnEnter>
+                    <OnLeave>
+                        GameTooltip:Hide()
+                    </OnLeave>
+                </Scripts>
+            </Button>
+
+            <!-- Ritual of Refreshment Button -->
+            <Button name="$parentRitualOfRefreshment" inherits="SecureActionButtonTemplate">
+                <Size>
+                    <AbsDimension x="20" y="20"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="110" y="-10"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentTexture" file="Interface\Icons\spell_arcane_massdispel"/>
+                    </Layer>
+                </Layers>
+                <Scripts>
+                    <OnLoad>
+                        self:SetAttribute("type1", "spell")
+                        self:SetAttribute("spell", GetSpellInfo(43987))
+                    </OnLoad>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, ANCHOR_TOPLEFT)
+                        GameTooltip:AddLine("Ritual of Refreshment")
+                        GameTooltip:Show()
+                    </OnEnter>
+                    <OnLeave>
+                        GameTooltip:Hide()
+                    </OnLeave>
+                </Scripts>
+            </Button>
+
+            <Button name="$parentClose" inherits="OptionsButtonTemplate" text=" ">
+                    <Size>
+                    <AbsDimension x="40" y="12"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="BOTTOM">
+                            <Offset>
+                            <AbsDimension x="0" y="5"/>
+                            </Offset>
+                        </Anchor>
+                    </Anchors>
+                    <Layers>
+                        <Layer level="ARTWORK">
+                            <FontString name="$parentText" font="Fonts\FRIZQT__.TTF" inherits="GameFontNormal" text="Close">
+                                <Anchors>
+                                    <Anchor point="Center">
+                                        <Offset>
+                                        <AbsDimension x="0" y="0"/>
+                                        </Offset>
+                                    </Anchor>
+                                </Anchors>
+                                <FontHeight>
+                                    <AbsValue val="8"/>
+                                </FontHeight>
+                            </FontString>
+                        </Layer>
+                    </Layers>
+                    <Scripts>
+                        <OnClick>
+                            MageUtilsConjurationFrame:Hide();
+                        </OnClick>
+                    </Scripts>
+            </Button>
+
+        </Frames>
+
+        <!-- Make the frame draggable -->
+        <Scripts>
+            <OnLoad>
+                self:SetMovable(true)
+                self:RegisterForDrag("LeftButton")
+            </OnLoad>
+            <OnDragStart>
+                self:StartMoving()
+            </OnDragStart>
+            <OnDragStop>
+                self:StopMovingOrSizing()
+            </OnDragStop>
+            <OnShow>
+                local arcanePowder = GetItemCount(17020)
+                MageUtilsConjurationFrameText:SetText("Arcane Powder: "..arcanePowder)
+            </OnShow>
         </Scripts>
     </Frame>
 </Ui>

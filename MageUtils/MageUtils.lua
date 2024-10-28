@@ -90,30 +90,41 @@ local function InitializeMageUtilsDropDown(self, level)
         -- Portals
         info = UIDropDownMenu_CreateInfo()
         info.text = "Portals"
-        info.func = function() print("Portals clicked") end -- Placeholder
+        info.func = function() 
+            -- Check if player is a Mage and knows the spell
+            local _, class = UnitClass("player")
+            if class ~= "MAGE" then
+                print("|cFFFFFF00[Mage Utils]|r You must be a Mage to use this feature.")
+                return
+            end
+            if faction == "Alliance" then
+                -- Show the Portal Frame
+                MageUtilsAlliancePortalFrame:Show()
+                print("|cFFFFFF00[Mage Utils]|r Portal frame opened.")
+            end
+            if faction == "Horde" then
+                -- Show the Portal Frame
+                MageUtilsHordePortalFrame:Show()
+                print("|cFFFFFF00[Mage Utils]|r Portal frame opened.")
+            end
+         end
         info.notCheckable = true
         UIDropDownMenu_AddButton(info, level)
         
-        -- Conjure (with submenus)
+        -- Conjure
         info = UIDropDownMenu_CreateInfo()
         info.text = "Conjure"
-        info.hasArrow = true
+        info.func = function() 
+            -- Check if player is a Mage and knows the spell
+            local _, class = UnitClass("player")
+            if class ~= "MAGE" then
+                print("|cFFFFFF00[Mage Utils]|r You must be a Mage to use this feature.")
+                return
+            end
+            MageUtilsConjurationFrame:Show()
+         end
         info.notCheckable = true
         UIDropDownMenu_AddButton(info, level)
-        
-    elseif level == 2 then
-        -- Submenu items for Conjure
-        local parent = UIDROPDOWNMENU_MENU_VALUE
-        if parent == "Conjure" then
-            local conjureOptions = {"Food", "Water", "Mana Gem", "Refreshment"}
-            for _, option in ipairs(conjureOptions) do
-                local info = UIDropDownMenu_CreateInfo()
-                info.text = option
-                info.func = function() print("Conjure " .. option .. " clicked") end -- Placeholder
-                info.notCheckable = true
-                UIDropDownMenu_AddButton(info, level)
-            end
-        end
     end
 end
 
