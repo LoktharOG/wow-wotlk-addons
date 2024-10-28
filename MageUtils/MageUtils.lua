@@ -1,22 +1,20 @@
--- Initialize MageUtilsDB to store button position and settings
-MageUtilsDB = MageUtilsDB or {
-    ShowFloatingButton = true,
-    ButtonPosition = {
-        point = "CENTER",
-        relativePoint = "CENTER",
-        xOfs = 0,
-        yOfs = 0,
-    }
+-- MageUtils Addon
+-- Version: 1.0
+-- Description: Provides a floating button to access mage utilities and integrates with Titan Panel.
+
+-- Initialize MageUtilsDB if not already set
+MageUtilsDB = MageUtilsDB or {}
+MageUtilsDB.ShowFloatingButton = MageUtilsDB.ShowFloatingButton ~= false -- Default to true
+MageUtilsDB.ButtonPosition = MageUtilsDB.ButtonPosition or {
+    point = "CENTER",
+    relativePoint = "CENTER",
+    xOfs = 0,
+    yOfs = 0,
 }
 
--- Function to check if Titan Panel is loaded
-local function IsTitanPanelLoaded()
-    return IsAddOnLoaded("Titan")
-end
-
--- Create the main floating Mage Utils button
+-- Create the movable floating button
 local mageUtilsButton = CreateFrame("Button", "MageUtilsButtonFrame", UIParent, "UIPanelButtonTemplate")
-mageUtilsButton:SetSize(100, 24)
+mageUtilsButton:SetSize(120, 24)  -- Adjust size as needed
 mageUtilsButton:SetPoint(
     MageUtilsDB.ButtonPosition.point,
     UIParent,
@@ -27,16 +25,24 @@ mageUtilsButton:SetPoint(
 mageUtilsButton:SetMovable(true)
 mageUtilsButton:EnableMouse(true)
 mageUtilsButton:RegisterForDrag("LeftButton")
-mageUtilsButton:SetScript("OnDragStart", function(self) self:StartMoving() end)
+mageUtilsButton:SetScript("OnDragStart", function(self)
+    self:StartMoving()
+end)
 mageUtilsButton:SetScript("OnDragStop", function(self)
     self:StopMovingOrSizing()
-    local point, _, relativePoint, xOfs, yOfs = self:GetPoint()
-    MageUtilsDB.ButtonPosition = { point = point, relativePoint = relativePoint, xOfs = xOfs, yOfs = yOfs }
+    -- Save position
+    local point, relativeTo, relativePoint, xOfs, yOfs = self:GetPoint()
+    MageUtilsDB.ButtonPosition = {
+        point = point,
+        relativePoint = relativePoint,
+        xOfs = xOfs,
+        yOfs = yOfs,
+    }
 end)
 mageUtilsButton:SetText("Mage Utils")
 
--- Function to toggle the visibility of Mage Utils button
-local function UpdateMageUtilsButtonVisibility()
+-- Function to update the floating button's visibility
+local function UpdateButtonVisibility()
     if MageUtilsDB.ShowFloatingButton then
         mageUtilsButton:Show()
     else
@@ -44,69 +50,61 @@ local function UpdateMageUtilsButtonVisibility()
     end
 end
 
--- Determine faction and toggle relevant frames
-local function ShowRelevantPortalFrame()
-    local faction = UnitFactionGroup("player")
-    if faction == "Alliance" then
-        MageUtilsAlliancePortalsFrame:Show()
-        MageUtilsHordePortalsFrame:Hide()
-    elseif faction == "Horde" then
-        MageUtilsHordePortalsFrame:Show()
-        MageUtilsAlliancePortalsFrame:Hide()
-    else
-        MageUtilsAlliancePortalsFrame:Hide()
-        MageUtilsHordePortalsFrame:Hide()
-    end
-end
+-- Initialize the dropdown menu frame
+local MageUtilsDropDown = CreateFrame("Frame", "MageUtilsDropDownFrame", UIParent, "UIDropDownMenuTemplate")
 
--- Functions to open each spell category frame
-local function ShowPortals()
-    HideAllFrames()
-    ShowRelevantPortalFrame()
-end
-
-local function ShowTeleports()
-    HideAllFrames()
-    if MageUtilsTeleportsFrame then MageUtilsTeleportsFrame:Show() end
-end
-
-local function ShowConjure()
-    HideAllFrames()
-    if MageUtilsConjureFrame then MageUtilsConjureFrame:Show() end
-end
-
--- Hide all frames initially
-local function HideAllFrames()
-    if MageUtilsAlliancePortalsFrame then MageUtilsAlliancePortalsFrame:Hide() end
-    if MageUtilsHordePortalsFrame then MageUtilsHordePortalsFrame:Hide() end
-    if MageUtilsTeleportsFrame then MageUtilsTeleportsFrame:Hide() end
-    if MageUtilsConjureFrame then MageUtilsConjureFrame:Hide() end
-end
-
--- Attach dropdown menu to Mage Utils button
-local MageUtilsDropdown = CreateFrame("Frame", "MageUtilsDropdownFrame", UIParent, "UIDropDownMenuTemplate")
-local function InitializeMageUtilsDropdown(self, level)
+-- Function to initialize the dropdown menu
+local function InitializeMageUtilsDropDown(self, level)
     if not level then return end
-    local info = UIDropDownMenu_CreateInfo()
 
     if level == 1 then
-        info.text = "Portal"
-        info.func = function() ShowPortals() end
-        UIDropDownMenu_AddButton(info, level)
-
+        -- Top-level menu items
+        local info = UIDropDownMenu_CreateInfo()
+        
+        -- Teleport
+        info = UIDropDownMenu_CreateInfo()
         info.text = "Teleport"
-        info.func = ShowTeleports
+        info.func = function() print("Teleport clicked") end -- Placeholder
+        info.notCheckable = true
         UIDropDownMenu_AddButton(info, level)
-
+        
+        -- Portals
+        info = UIDropDownMenu_CreateInfo()
+        info.text = "Portals"
+        info.func = function() print("Portals clicked") end -- Placeholder
+        info.notCheckable = true
+        UIDropDownMenu_AddButton(info, level)
+        
+        -- Conjure (with submenus)
+        info = UIDropDownMenu_CreateInfo()
         info.text = "Conjure"
-        info.func = ShowConjure
+        info.hasArrow = true
+        info.notCheckable = true
         UIDropDownMenu_AddButton(info, level)
+        
+    elseif level == 2 then
+        -- Submenu items for Conjure
+        local parent = UIDROPDOWNMENU_MENU_VALUE
+        if parent == "Conjure" then
+            local conjureOptions = {"Food", "Water", "Manage", "Refreshment"}
+            for _, option in ipairs(conjureOptions) do
+                local info = UIDropDownMenu_CreateInfo()
+                info.text = option
+                info.func = function() print("Conjure " .. option .. " clicked") end -- Placeholder
+                info.notCheckable = true
+                UIDropDownMenu_AddButton(info, level)
+            end
+        end
     end
 end
 
-UIDropDownMenu_Initialize(MageUtilsDropdown, InitializeMageUtilsDropdown, "MENU")
+UIDropDownMenu_Initialize(MageUtilsDropDown, InitializeMageUtilsDropDown, "MENU")
+
+-- Set the OnClick handler for the button to toggle the dropdown menu
 mageUtilsButton:SetScript("OnClick", function(self, button)
-    ToggleDropDownMenu(1, nil, MageUtilsDropdown, "cursor", 3, -3)
+    if button == "LeftButton" then
+        ToggleDropDownMenu(1, nil, MageUtilsDropDown, self, 0, 0)
+    end
 end)
 
 -- Slash command to toggle the floating button visibility
@@ -118,26 +116,20 @@ SlashCmdList["MAGEUTILS"] = function(msg)
     else
         print("|cFFFFFF00[Mage Utils]|r Floating button hidden.")
     end
-    UpdateMageUtilsButtonVisibility()
+    UpdateButtonVisibility()
 end
 
--- Function to handle Titan Panel integration for MageUtils
-local function IntegrateWithTitanPanelMageUtils()
-    if not IsTitanPanelLoaded() then 
-        print("|cFFFFFF00[Mage Utils]|r Titan Panel not loaded.")
-        return 
-    end
-
-    -- Define the Titan Panel plugin details for MageUtils
+-- Function to handle Titan Panel integration
+local function IntegrateWithTitanPanel()
     local MageUtilsTitanPlugin = {
         id = "MageUtils",
         version = "1.0",
         category = "General",
-        menuText = "Mage Utils",
+        menuText = "MageUtils",
         buttonTextFunction = "TitanPanelMageUtilsButton_GetButtonText",
-        tooltipTitle = "Mage Utils",
+        tooltipTitle = "Mage Utilities",
         tooltipTextFunction = "TitanPanelMageUtilsButton_GetTooltipText",
-        icon = "Interface\\Icons\\Spell_Holy_ArcaneIntellect",
+        icon = "Interface\\Icons\\Spell_Magic_LesserInvisibilty", -- Replace with a suitable icon
         iconWidth = 16,
         savedVariables = {
             ShowIcon = 1,
@@ -145,20 +137,17 @@ local function IntegrateWithTitanPanelMageUtils()
         },
     }
 
-    -- Define text to display on the Titan Panel button
     function TitanPanelMageUtilsButton_GetButtonText(id)
         return "Mage Utils"
     end
 
-    -- Define tooltip text for Titan Panel button
     function TitanPanelMageUtilsButton_GetTooltipText()
-        return "Left-click to open Mage Utils menu."
+        return "Left-click to open Mage Utilities menu."
     end
 
-    -- Define the OnClick function to open MageUtils dropdown on left-click
     function TitanPanelMageUtilsButton_OnClick(self, button)
         if button == "LeftButton" then
-            ToggleDropDownMenu(1, nil, MageUtilsDropdown, self, 0, 0)
+            ToggleDropDownMenu(1, nil, MageUtilsDropDown, self, 0, 0)
         end
     end
 
@@ -166,10 +155,10 @@ local function IntegrateWithTitanPanelMageUtils()
     local frame = CreateFrame("Button", "TitanPanelMageUtilsButton", UIParent, "TitanPanelComboTemplate")
     frame.registry = MageUtilsTitanPlugin
     frame:SetScript("OnClick", TitanPanelMageUtilsButton_OnClick)
-    TitanPanelButton_OnLoad(frame)
+    -- TitanPanelButton_OnLoad(frame) -- Uncomment if needed based on Titan Panel version
 
     print("|cFFFFFF00[Mage Utils]|r Integrated with Titan Panel.")
 end
 
-IntegrateWithTitanPanelMageUtils()
-UpdateMageUtilsButtonVisibility()
+IntegrateWithTitanPanel()
+UpdateButtonVisibility()

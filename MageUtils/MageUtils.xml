@@ -1,160 +1,98 @@
-<Ui xmlns="http://www.blizzard.com/wow/ui/"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<?xml version="1.0" encoding="utf-8"?>
+<Ui xmlns="http://www.blizzard.com/wow/ui/">
 
-    <!-- Main Script Reference -->
-    <Script file="MageUtils.lua" />
-
-    <!-- Main Frame for Mage Utils -->
-    <Frame name="MageUtilsMainFrame" parent="UIParent" hidden="true" enableMouse="true" movable="true">
+    <!-- MageUtils Teleport Frame -->
+    <Frame name="MageUtilsTeleportFrame" hidden="true" movable="true" enableMouse="true">
         <Size>
-            <AbsDimension x="300" y="400" />
+            <AbsDimension x="300" y="150"/>
         </Size>
         <Anchors>
-            <Anchor point="CENTER" />
+            <Anchor point="CENTER"/>
         </Anchors>
-        <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
-            <TileSize>
-                <AbsValue val="32" />
-            </TileSize>
-            <EdgeSize>
-                <AbsValue val="13" />
-            </EdgeSize>
-            <BackgroundInsets>
-                <AbsInset left="3" right="4" top="4" bottom="3" />
-            </BackgroundInsets>
-        </Backdrop>
+        <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" 
+                  edgeFile="Interface\DialogFrame\UI-DialogBox-Border" 
+                  tile="true" tileSize="32" edgeSize="32" 
+                  insets="5,5,5,5"/>
+        <Frames>
+            <!-- Title Bar (Optional) -->
+            <Frame name="$parentTitle" inherits="UIPanelButtonTemplate">
+                <Size>
+                    <AbsDimension x="290" y="24"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOP" relativePoint="TOP" x="0" y="-5"/>
+                </Anchors>
+                <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Header" 
+                          edgeFile="" 
+                          tile="false" tileSize="0" edgeSize="0" 
+                          insets="0,0,0,0"/>
+            </Frame>
+
+            <!-- Teleport to Stormwind Button -->
+            <Button name="$parentPortSW" inherits="SecureActionButtonTemplate">
+                <Size>
+                    <AbsDimension x="50" y="50"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="CENTER" relativePoint="CENTER" x="0" y="0"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentTelSWTexture" file="Interface\Icons\Spell_Arcane_PortalStormwind"/>
+                    </Layer>
+                </Layers>
+                <Scripts>
+                    <OnLoad>
+                        local swport = GetSpellInfo(10059) <!-- Teleport: Stormwind -->
+                        if swport ~= nil then
+                            self:SetAttribute("type1", "spell")
+                            self:SetAttribute("spell", swport)
+                        end
+                    </OnLoad>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, ANCHOR_TOPLEFT)
+                        GameTooltip:AddLine("Portal: Stormwind")
+                        GameTooltip:Show()
+                    </OnEnter>
+                    <OnLeave>
+                        GameTooltip:Hide()
+                    </OnLeave>
+                </Scripts>
+            </Button>
+        </Frames>
+
+        <!-- Make the frame draggable -->
         <Scripts>
             <OnLoad>
-                self:RegisterForDrag("LeftButton");
+                self:SetMovable(true)
+                self:RegisterForDrag("LeftButton")
+                -- Restore position if saved
+                if MageUtilsDB.TeleportFramePosition then
+                    self:ClearAllPoints()
+                    self:SetPoint(
+                        MageUtilsDB.TeleportFramePosition.point,
+                        UIParent,
+                        MageUtilsDB.TeleportFramePosition.relativePoint,
+                        MageUtilsDB.TeleportFramePosition.xOfs,
+                        MageUtilsDB.TeleportFramePosition.yOfs
+                    )
+                end
             </OnLoad>
-            <OnDragStart> self:StartMoving() </OnDragStart>
-            <OnDragStop> self:StopMovingOrSizing() </OnDragStop>
+            <OnDragStart>
+                self:StartMoving()
+            </OnDragStart>
+            <OnDragStop>
+                self:StopMovingOrSizing()
+                -- Save the new position to the database
+                local point, relativeTo, relativePoint, xOfs, yOfs = self:GetPoint()
+                MageUtilsDB.TeleportFramePosition = {
+                    point = point,
+                    relativePoint = relativePoint,
+                    xOfs = xOfs,
+                    yOfs = yOfs,
+                }
+            </OnDragStop>
         </Scripts>
-        
-        <!-- Title Text -->
-        <Layers>
-            <Layer level="ARTWORK">
-                <FontString name="$parentTitle" inherits="GameFontNormal" text="Mage Utils">
-                    <Anchors>
-                        <Anchor point="TOP" relativePoint="TOP">
-                            <Offset>
-                                <AbsDimension x="0" y="-10" />
-                            </Offset>
-                        </Anchor>
-                    </Anchors>
-                </FontString>
-            </Layer>
-        </Layers>
-
-        <!-- Alliance Portal Frame -->
-        <Frame name="MageUtilsAlliancePortalsFrame" parent="MageUtilsMainFrame" hidden="true">
-            <Size>
-                <AbsDimension x="250" y="300" />
-            </Size>
-            <Anchors>
-                <Anchor point="TOP" relativePoint="TOP">
-                    <Offset>
-                        <AbsDimension x="0" y="-40" />
-                    </Offset>
-                </Anchor>
-            </Anchors>
-            <!-- Portal to Darnassus -->
-            <Button name="$parentPortDarn" inherits="SecureActionButtonTemplate">
-                <Size>
-                    <AbsDimension x="50" y="50" />
-                </Size>
-                <Anchors>
-                    <Anchor point="TOPLEFT" />
-                </Anchors>
-                <NormalTexture file="Interface\Icons\spell_arcane_portaldarnassus" />
-                <Scripts>
-                    <OnLoad>
-                        self:SetAttribute("type", "spell")
-                        self:SetAttribute("spell", GetSpellInfo(11419)) <!-- Portal: Darnassus -->
-                    </OnLoad>
-                    <OnEnter>
-                        GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT")
-                        GameTooltip:AddLine("Portal: Darnassus")
-                        GameTooltip:Show()
-                    </OnEnter>
-                    <OnLeave> GameTooltip:Hide() </OnLeave>
-                </Scripts>
-            </Button>
-            <!-- Add additional Alliance portal buttons here -->
-        </Frame>
-
-        <!-- Horde Portal Frame -->
-        <Frame name="MageUtilsHordePortalsFrame" parent="MageUtilsMainFrame" hidden="true">
-            <Size>
-                <AbsDimension x="250" y="300" />
-            </Size>
-            <Anchors>
-                <Anchor point="TOP" relativePoint="TOP">
-                    <Offset>
-                        <AbsDimension x="0" y="-40" />
-                    </Offset>
-                </Anchor>
-            </Anchors>
-            <!-- Portal to Orgrimmar -->
-            <Button name="$parentPortOrg" inherits="SecureActionButtonTemplate">
-                <Size>
-                    <AbsDimension x="50" y="50" />
-                </Size>
-                <Anchors>
-                    <Anchor point="TOPLEFT" />
-                </Anchors>
-                <NormalTexture file="Interface\Icons\spell_arcane_portalorgrimmar" />
-                <Scripts>
-                    <OnLoad>
-                        self:SetAttribute("type", "spell")
-                        self:SetAttribute("spell", GetSpellInfo(11417)) <!-- Portal: Orgrimmar -->
-                    </OnLoad>
-                    <OnEnter>
-                        GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT")
-                        GameTooltip:AddLine("Portal: Orgrimmar")
-                        GameTooltip:Show()
-                    </OnEnter>
-                    <OnLeave> GameTooltip:Hide() </OnLeave>
-                </Scripts>
-            </Button>
-            <!-- Add additional Horde portal buttons here -->
-        </Frame>
-        
-        <!-- Shared Teleport Frame for both Factions -->
-        <Frame name="MageUtilsTeleportsFrame" parent="MageUtilsMainFrame" hidden="true">
-            <Size>
-                <AbsDimension x="250" y="300" />
-            </Size>
-            <Anchors>
-                <Anchor point="TOP" relativePoint="TOP">
-                    <Offset>
-                        <AbsDimension x="0" y="-40" />
-                    </Offset>
-                </Anchor>
-            </Anchors>
-            <!-- Teleport to Stormwind (Alliance example) -->
-            <Button name="$parentTeleSW" inherits="SecureActionButtonTemplate">
-                <Size>
-                    <AbsDimension x="50" y="50" />
-                </Size>
-                <Anchors>
-                    <Anchor point="TOPLEFT" />
-                </Anchors>
-                <NormalTexture file="Interface\Icons\spell_arcane_teleportstormwind" />
-                <Scripts>
-                    <OnLoad>
-                        self:SetAttribute("type", "spell")
-                        self:SetAttribute("spell", GetSpellInfo(3561)) <!-- Teleport: Stormwind -->
-                    </OnLoad>
-                    <OnEnter>
-                        GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT")
-                        GameTooltip:AddLine("Teleport: Stormwind")
-                        GameTooltip:Show()
-                    </OnEnter>
-                    <OnLeave> GameTooltip:Hide() </OnLeave>
-                </Scripts>
-            </Button>
-            <!-- Add additional teleport buttons here -->
-        </Frame>
     </Frame>
+
 </Ui>

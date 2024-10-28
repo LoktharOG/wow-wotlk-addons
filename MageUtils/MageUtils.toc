@@ -1,9 +1,8 @@
 ## Interface: 30300
-## Title: Mage Utils
+## Title: MageUtils
 ## Notes: Provides a combined interface for mage portal, teleport, and conjure spells.
 ## Author: Lokthar
 ## Version: 1.0
-## OptionalDeps: LibStub, TitanPanel, Ace3
 ## SavedVariables: MageUtilsDB
 
 # Main Addon Lua
@@ -11,14 +10,3 @@ MageUtils.lua
 
 # XML UI Layout
 MageUtils.xml
-
-# Libraries
-Libs/LibStub/LibStub.lua
-Libs/CallbackHandler-1.0/CallbackHandler-1.0.xml
-Libs/AceAddon-3.0/AceAddon-3.0.xml
-Libs/AceGUI-3.0/AceGUI-3.0.xml
-Libs/AceConfig-3.0/AceConfig-3.0.xml
-Libs/AceConsole-3.0/AceConsole-3.0.xml
-Libs/AceDB-3.0/AceDB-3.0.xml
-Libs/AceEvent-3.0/AceEvent-3.0.xml
-Libs/AceLocale-3.0/AceLocale-3.0.xml

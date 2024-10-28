@@ -12,11 +12,6 @@ ProfessionsMenuDB.ButtonPosition = ProfessionsMenuDB.ButtonPosition or {
     yOfs = 0,
 }
 
--- Function to check if Titan Panel is loaded
-local function IsTitanPanelLoaded()
-    return IsAddOnLoaded("Titan")
-end
-
 -- Create the movable floating button
 local professionsButton = CreateFrame("Button", "ProfessionsButtonFrame", UIParent, "UIPanelButtonTemplate")
 professionsButton:SetSize(100, 24)  -- Adjust size as needed
