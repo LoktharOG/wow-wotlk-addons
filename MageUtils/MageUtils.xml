@@ -1,0 +1,160 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+    <!-- Main Script Reference -->
+    <Script file="MageUtils.lua" />
+
+    <!-- Main Frame for Mage Utils -->
+    <Frame name="MageUtilsMainFrame" parent="UIParent" hidden="true" enableMouse="true" movable="true">
+        <Size>
+            <AbsDimension x="300" y="400" />
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" />
+        </Anchors>
+        <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
+            <TileSize>
+                <AbsValue val="32" />
+            </TileSize>
+            <EdgeSize>
+                <AbsValue val="13" />
+            </EdgeSize>
+            <BackgroundInsets>
+                <AbsInset left="3" right="4" top="4" bottom="3" />
+            </BackgroundInsets>
+        </Backdrop>
+        <Scripts>
+            <OnLoad>
+                self:RegisterForDrag("LeftButton");
+            </OnLoad>
+            <OnDragStart> self:StartMoving() </OnDragStart>
+            <OnDragStop> self:StopMovingOrSizing() </OnDragStop>
+        </Scripts>
+        
+        <!-- Title Text -->
+        <Layers>
+            <Layer level="ARTWORK">
+                <FontString name="$parentTitle" inherits="GameFontNormal" text="Mage Utils">
+                    <Anchors>
+                        <Anchor point="TOP" relativePoint="TOP">
+                            <Offset>
+                                <AbsDimension x="0" y="-10" />
+                            </Offset>
+                        </Anchor>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+
+        <!-- Alliance Portal Frame -->
+        <Frame name="MageUtilsAlliancePortalsFrame" parent="MageUtilsMainFrame" hidden="true">
+            <Size>
+                <AbsDimension x="250" y="300" />
+            </Size>
+            <Anchors>
+                <Anchor point="TOP" relativePoint="TOP">
+                    <Offset>
+                        <AbsDimension x="0" y="-40" />
+                    </Offset>
+                </Anchor>
+            </Anchors>
+            <!-- Portal to Darnassus -->
+            <Button name="$parentPortDarn" inherits="SecureActionButtonTemplate">
+                <Size>
+                    <AbsDimension x="50" y="50" />
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT" />
+                </Anchors>
+                <NormalTexture file="Interface\Icons\spell_arcane_portaldarnassus" />
+                <Scripts>
+                    <OnLoad>
+                        self:SetAttribute("type", "spell")
+                        self:SetAttribute("spell", GetSpellInfo(11419)) <!-- Portal: Darnassus -->
+                    </OnLoad>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT")
+                        GameTooltip:AddLine("Portal: Darnassus")
+                        GameTooltip:Show()
+                    </OnEnter>
+                    <OnLeave> GameTooltip:Hide() </OnLeave>
+                </Scripts>
+            </Button>
+            <!-- Add additional Alliance portal buttons here -->
+        </Frame>
+
+        <!-- Horde Portal Frame -->
+        <Frame name="MageUtilsHordePortalsFrame" parent="MageUtilsMainFrame" hidden="true">
+            <Size>
+                <AbsDimension x="250" y="300" />
+            </Size>
+            <Anchors>
+                <Anchor point="TOP" relativePoint="TOP">
+                    <Offset>
+                        <AbsDimension x="0" y="-40" />
+                    </Offset>
+                </Anchor>
+            </Anchors>
+            <!-- Portal to Orgrimmar -->
+            <Button name="$parentPortOrg" inherits="SecureActionButtonTemplate">
+                <Size>
+                    <AbsDimension x="50" y="50" />
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT" />
+                </Anchors>
+                <NormalTexture file="Interface\Icons\spell_arcane_portalorgrimmar" />
+                <Scripts>
+                    <OnLoad>
+                        self:SetAttribute("type", "spell")
+                        self:SetAttribute("spell", GetSpellInfo(11417)) <!-- Portal: Orgrimmar -->
+                    </OnLoad>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT")
+                        GameTooltip:AddLine("Portal: Orgrimmar")
+                        GameTooltip:Show()
+                    </OnEnter>
+                    <OnLeave> GameTooltip:Hide() </OnLeave>
+                </Scripts>
+            </Button>
+            <!-- Add additional Horde portal buttons here -->
+        </Frame>
+        
+        <!-- Shared Teleport Frame for both Factions -->
+        <Frame name="MageUtilsTeleportsFrame" parent="MageUtilsMainFrame" hidden="true">
+            <Size>
+                <AbsDimension x="250" y="300" />
+            </Size>
+            <Anchors>
+                <Anchor point="TOP" relativePoint="TOP">
+                    <Offset>
+                        <AbsDimension x="0" y="-40" />
+                    </Offset>
+                </Anchor>
+            </Anchors>
+            <!-- Teleport to Stormwind (Alliance example) -->
+            <Button name="$parentTeleSW" inherits="SecureActionButtonTemplate">
+                <Size>
+                    <AbsDimension x="50" y="50" />
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT" />
+                </Anchors>
+                <NormalTexture file="Interface\Icons\spell_arcane_teleportstormwind" />
+                <Scripts>
+                    <OnLoad>
+                        self:SetAttribute("type", "spell")
+                        self:SetAttribute("spell", GetSpellInfo(3561)) <!-- Teleport: Stormwind -->
+                    </OnLoad>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT")
+                        GameTooltip:AddLine("Teleport: Stormwind")
+                        GameTooltip:Show()
+                    </OnEnter>
+                    <OnLeave> GameTooltip:Hide() </OnLeave>
+                </Scripts>
+            </Button>
+            <!-- Add additional teleport buttons here -->
+        </Frame>
+    </Frame>
+</Ui>

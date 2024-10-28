@@ -263,3 +263,4 @@ local function IntegrateWithTitanPanel()
 end
 
 IntegrateWithTitanPanel()
+UpdateButtonVisibility()
