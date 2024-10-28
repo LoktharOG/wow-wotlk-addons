@@ -55,6 +55,8 @@ local MageUtilsDropDown = CreateFrame("Frame", "MageUtilsDropDownFrame", UIParen
 
 -- Function to initialize the dropdown menu
 local function InitializeMageUtilsDropDown(self, level)
+    local faction = UnitFactionGroup("player")
+
     if not level then return end
 
     if level == 1 then
@@ -71,14 +73,28 @@ local function InitializeMageUtilsDropDown(self, level)
                 print("|cFFFFFF00[Mage Utils]|r You must be a Mage to use this feature.")
                 return
             end
+            if faction == "Alliance" then
             local spellName = GetSpellInfo(10059) -- Teleport: Stormwind
-            if not spellName then
-                print("|cFFFFFF00[Mage Utils]|r You have not learned Teleport: Stormwind.")
-                return
+                if not spellName then
+                    print("|cFFFFFF00[Mage Utils]|r You have not learned Teleport: Stormwind.")
+                    return
+                end
+            
+                -- Show the Teleport Frame
+                MageUtilsAllianceTeleportFrame:Show()
+                print("|cFFFFFF00[Mage Utils]|r Teleport frame opened.")
             end
-            -- Show the Teleport Frame
-            MageUtilsTeleportFrame:Show()
-            print("|cFFFFFF00[Mage Utils]|r Teleport frame opened.")
+            if faction == "Horde" then
+                local spellName = GetSpellInfo(10059) -- Teleport: Stormwind
+                    if not spellName then
+                        print("|cFFFFFF00[Mage Utils]|r You have not learned Teleport: Stormwind.")
+                        return
+                    end
+                
+                    -- Show the Teleport Frame
+                    MageUtilsHordeTeleportFrame:Show()
+                    print("|cFFFFFF00[Mage Utils]|r Teleport frame opened.")
+                end
          end -- Placeholder
         info.notCheckable = true
         UIDropDownMenu_AddButton(info, level)

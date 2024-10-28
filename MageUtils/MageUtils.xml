@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Ui xmlns="http://www.blizzard.com/wow/ui/">
 
-    <!-- MageUtils Teleport Frame -->
-    <Frame name="MageUtilsTeleportFrame" hidden="true" movable="true" enableMouse="true">
+    <!-- MageUtils Alliance Teleport Frame -->
+    <Frame name="MageUtilsAllianceTeleportFrame" hidden="true" movable="true" enableMouse="true">
         <Size>
             <AbsDimension x="200" y="100"/>
         </Size>
@@ -22,21 +22,21 @@
         </Backdrop>
         <Frames>
             <!-- Teleport to Stormwind Button -->
-            <Button name="$parentPortSW" inherits="SecureActionButtonTemplate">
+            <Button name="$parentTeleportSW" inherits="SecureActionButtonTemplate">
                 <Size>
                     <AbsDimension x="20" y="20"/>
                 </Size>
                 <Anchors>
-                    <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="10" y="-20"/>
+                    <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="10" y="-10"/>
                 </Anchors>
                 <Layers>
                     <Layer level="BACKGROUND">
-                        <Texture name="$parentTelDalTexture" file="Interface\Icons\Spell_Arcane_PortalStormwind"/>
+                        <Texture name="$parentTelDalTexture" file="Interface\Icons\Spell_Arcane_TeleportStormwind"/>
                     </Layer>
                 </Layers>
                 <Scripts>
                     <OnLoad>
-                        local swport = GetSpellInfo(10059) <!-- Teleport: Stormwind -->
+                        local swport = GetSpellInfo(3561) <!-- Teleport: Stormwind -->
                         if swport ~= nil then
                             self:SetAttribute("type1", "spell")
                             self:SetAttribute("spell", swport)
@@ -44,7 +44,38 @@
                     </OnLoad>
                     <OnEnter>
                         GameTooltip:SetOwner(self, ANCHOR_TOPLEFT)
-                        GameTooltip:AddLine("Portal: Stormwind")
+                        GameTooltip:AddLine("Teleport: Stormwind")
+                        GameTooltip:Show()
+                    </OnEnter>
+                    <OnLeave>
+                        GameTooltip:Hide()
+                    </OnLeave>
+                </Scripts>
+            </Button>
+            <!-- Teleport to Ironforge Button -->
+            <Button name="$parentTeleportIF" inherits="SecureActionButtonTemplate">
+                <Size>
+                    <AbsDimension x="20" y="20"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="40" y="-10"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentTelDalTexture" file="Interface\Icons\Spell_Arcane_TeleportIronforge"/>
+                    </Layer>
+                </Layers>
+                <Scripts>
+                    <OnLoad>
+                        local ifport = GetSpellInfo(3562) <!-- Teleport: Ironforge -->
+                        if ifport ~= nil then
+                            self:SetAttribute("type1", "spell")
+                            self:SetAttribute("spell", ifport)
+                        end
+                    </OnLoad>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, ANCHOR_TOPLEFT)
+                        GameTooltip:AddLine("Teleport: Ironforge")
                         GameTooltip:Show()
                     </OnEnter>
                     <OnLeave>
@@ -60,7 +91,7 @@
                 <Anchors>
                     <Anchor point="BOTTOM">
                         <Offset>
-                            <AbsDimension x="-80" y="5"/>
+                            <AbsDimension x="-80" y="10"/>
                         </Offset>
                     </Anchor>
                 </Anchors>
@@ -98,7 +129,7 @@
                     </Anchors>
                     <Scripts>
                         <OnClick>
-                            MageUtilsTeleportFrame:Hide();
+                            MageUtilsAllianceTeleportFrame:Hide();
                         </OnClick>
                     </Scripts>
             </Button>
@@ -125,4 +156,121 @@
         </Scripts>
     </Frame>
 
+    <!-- MageUtils Horde Teleport Frame -->
+    <Frame name="MageUtilsHordeTeleportFrame" hidden="true" movable="true" enableMouse="true">
+        <Size>
+            <AbsDimension x="200" y="100"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER"/>
+        </Anchors>
+        <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface/Tooltips/UI-Tooltip-Border" tile="true">
+        <TileSize>
+            <AbsValue val="32"/>
+        </TileSize>
+        <EdgeSize>
+            <AbsValue val="13"/>
+        </EdgeSize>
+        <BackgroundInsets>
+            <AbsInset left="2" right="2" top="2" bottom="2"/>
+        </BackgroundInsets>
+        </Backdrop>
+        <Frames>
+            <!-- Teleport to Orgrimmar Button -->
+            <Button name="$parentTeleportOG" inherits="SecureActionButtonTemplate">
+                <Size>
+                    <AbsDimension x="20" y="20"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="10" y="-10"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentTelDalTexture" file="Interface\Icons\Spell_Arcane_TeleportOrgrimmar"/>
+                    </Layer>
+                </Layers>
+                <Scripts>
+                    <OnLoad>
+                        local swport = GetSpellInfo(3567) <!-- Teleport: Orgrimmar -->
+                        if swport ~= nil then
+                            self:SetAttribute("type1", "spell")
+                            self:SetAttribute("spell", swport)
+                        end
+                    </OnLoad>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, ANCHOR_TOPLEFT)
+                        GameTooltip:AddLine("Teleport: Orgrimmar")
+                        GameTooltip:Show()
+                    </OnEnter>
+                    <OnLeave>
+                        GameTooltip:Hide()
+                    </OnLeave>
+                </Scripts>
+            </Button>
+
+            <Button name="$parentHearth" inherits="SecureActionButtonTemplate">
+                <Size>
+                    <AbsDimension x="20" y="20"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="BOTTOM">
+                        <Offset>
+                            <AbsDimension x="-80" y="10"/>
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentTelDalTexture" file="Interface\Icons\inv_misc_rune_01"/>
+                    </Layer>
+                </Layers>
+                <Scripts>
+                    <OnLoad>
+                        this:SetAttribute("type1", "item")
+                        this:SetAttribute("item", GetItemInfo(6948))
+                    </OnLoad>
+                    <OnEnter>
+                        GameTooltip:SetOwner(this, ANCHOR_TOPLEFT);
+                        GameTooltip:AddLine("Hearthstone")
+                        GameTooltip:Show()
+                    </OnEnter>
+                    <OnLeave>
+                        GameTooltip:Hide()
+                    </OnLeave>
+                </Scripts>
+            </Button>     
+            
+            <Button name="$parentClose" inherits="OptionsButtonTemplate" text="Close">
+                    <Size>
+                    <AbsDimension x="40" y="12"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="BOTTOM">
+                            <Offset>
+                            <AbsDimension x="0" y="5"/>
+                            </Offset>
+                        </Anchor>
+                    </Anchors>
+                    <Scripts>
+                        <OnClick>
+                            MageUtilsHordeTeleportFrame:Hide();
+                        </OnClick>
+                    </Scripts>
+            </Button>
+        </Frames>
+
+        <!-- Make the frame draggable -->
+        <Scripts>
+            <OnLoad>
+                self:SetMovable(true)
+                self:RegisterForDrag("LeftButton")
+            </OnLoad>
+            <OnDragStart>
+                self:StartMoving()
+            </OnDragStart>
+            <OnDragStop>
+                self:StopMovingOrSizing()
+            </OnDragStop>
+        </Scripts>
+    </Frame>
 </Ui>
