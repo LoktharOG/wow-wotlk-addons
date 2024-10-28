@@ -4,12 +4,22 @@
     <!-- MageUtils Teleport Frame -->
     <Frame name="MageUtilsTeleportFrame" hidden="true" movable="true" enableMouse="true">
         <Size>
-            <AbsDimension x="300" y="150"/>
+            <AbsDimension x="200" y="100"/>
         </Size>
         <Anchors>
             <Anchor point="CENTER"/>
         </Anchors>
         <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface/Tooltips/UI-Tooltip-Border" tile="true">
+        <TileSize>
+            <AbsValue val="32"/>
+        </TileSize>
+        <EdgeSize>
+            <AbsValue val="13"/>
+        </EdgeSize>
+        <BackgroundInsets>
+            <AbsInset left="2" right="2" top="2" bottom="2"/>
+        </BackgroundInsets>
+        </Backdrop>
         <Frames>
             <!-- Teleport to Stormwind Button -->
             <Button name="$parentPortSW" inherits="SecureActionButtonTemplate">
@@ -17,11 +27,11 @@
                     <AbsDimension x="20" y="20"/>
                 </Size>
                 <Anchors>
-                    <Anchor point="TOPLEFT" x="10" y="-20"/>
+                    <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="10" y="-20"/>
                 </Anchors>
                 <Layers>
                     <Layer level="BACKGROUND">
-                        <Texture name="$parentTelSWTexture" file="Interface\Icons\Spell_Arcane_PortalStormwind"/>
+                        <Texture name="$parentTelDalTexture" file="Interface\Icons\Spell_Arcane_PortalStormwind"/>
                     </Layer>
                 </Layers>
                 <Scripts>
@@ -50,7 +60,7 @@
                 <Anchors>
                     <Anchor point="BOTTOM">
                         <Offset>
-                            <AbsDimension x="-70" y="10"/>
+                            <AbsDimension x="-80" y="5"/>
                         </Offset>
                     </Anchor>
                 </Anchors>
@@ -82,7 +92,7 @@
                     <Anchors>
                         <Anchor point="BOTTOM">
                             <Offset>
-                            <AbsDimension x="-20" y="10"/>
+                            <AbsDimension x="0" y="5"/>
                             </Offset>
                         </Anchor>
                     </Anchors>
@@ -99,32 +109,19 @@
             <OnLoad>
                 self:SetMovable(true)
                 self:RegisterForDrag("LeftButton")
-                -- Restore position if saved
-                if MageUtilsDB.TeleportFramePosition then
-                    self:ClearAllPoints()
-                    self:SetPoint(
-                        MageUtilsDB.TeleportFramePosition.point,
-                        UIParent,
-                        MageUtilsDB.TeleportFramePosition.relativePoint,
-                        MageUtilsDB.TeleportFramePosition.xOfs,
-                        MageUtilsDB.TeleportFramePosition.yOfs
-                    )
-                end
             </OnLoad>
             <OnDragStart>
                 self:StartMoving()
             </OnDragStart>
             <OnDragStop>
                 self:StopMovingOrSizing()
-                -- Save the new position to the database
-                local point, relativeTo, relativePoint, xOfs, yOfs = self:GetPoint()
-                MageUtilsDB.TeleportFramePosition = {
-                    point = point,
-                    relativePoint = relativePoint,
-                    xOfs = xOfs,
-                    yOfs = yOfs,
-                }
             </OnDragStop>
+            <OnShow>
+                local runeofPort = GetItemCount(17032)
+                local runeofTele = GetItemCount(17031)
+                MageNugAlliFrameText:SetText("Portal:"..runeofPort)
+                MageNugAlliFrameText2:SetText("Teleport:"..runeofTele)
+            </OnShow>
         </Scripts>
     </Frame>
 
