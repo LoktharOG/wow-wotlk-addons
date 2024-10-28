@@ -216,8 +216,6 @@ end
 
 -- Function to handle Titan Panel integration
 local function IntegrateWithTitanPanel()
-    
-
     local ProfessionsTitanPlugin = {
         id = "ProfessionsMenu",
         version = "1.2",
@@ -252,7 +250,6 @@ local function IntegrateWithTitanPanel()
     local frame = CreateFrame("Button", "TitanPanelProfessionsMenuButton", UIParent, "TitanPanelComboTemplate")
     frame.registry = ProfessionsTitanPlugin
     frame:SetScript("OnClick", TitanPanelProfessionsMenuButton_OnClick)
-    -- TitanPanelButton_OnLoad(frame)
 
     print("|cFFFFFF00[Professions Menu]|r Integrated with Titan Panel.")
 end

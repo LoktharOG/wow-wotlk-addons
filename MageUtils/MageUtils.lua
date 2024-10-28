@@ -138,7 +138,7 @@ local function IntegrateWithTitanPanel()
     }
 
     function TitanPanelMageUtilsButton_GetButtonText(id)
-        return "Mage Utils"
+        return "MageUtils"
     end
 
     function TitanPanelMageUtilsButton_GetTooltipText()
@@ -155,7 +155,6 @@ local function IntegrateWithTitanPanel()
     local frame = CreateFrame("Button", "TitanPanelMageUtilsButton", UIParent, "TitanPanelComboTemplate")
     frame.registry = MageUtilsTitanPlugin
     frame:SetScript("OnClick", TitanPanelMageUtilsButton_OnClick)
-    -- TitanPanelButton_OnLoad(frame) -- Uncomment if needed based on Titan Panel version
 
     print("|cFFFFFF00[Mage Utils]|r Integrated with Titan Panel.")
 end
