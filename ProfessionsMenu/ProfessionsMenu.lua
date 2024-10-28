@@ -221,7 +221,7 @@ end
 
 -- Function to handle Titan Panel integration
 local function IntegrateWithTitanPanel()
-    if not IsTitanPanelLoaded() then return end
+    
 
     local ProfessionsTitanPlugin = {
         id = "ProfessionsMenu",
@@ -257,29 +257,9 @@ local function IntegrateWithTitanPanel()
     local frame = CreateFrame("Button", "TitanPanelProfessionsMenuButton", UIParent, "TitanPanelComboTemplate")
     frame.registry = ProfessionsTitanPlugin
     frame:SetScript("OnClick", TitanPanelProfessionsMenuButton_OnClick)
-    TitanPanelButton_OnLoad(frame)
+    -- TitanPanelButton_OnLoad(frame)
 
     print("|cFFFFFF00[Professions Menu]|r Integrated with Titan Panel.")
 end
 
--- Event frame to handle addon loading
-local profmenuEventFrame = CreateFrame("Frame")
-profmenuEventFrame:RegisterEvent("ADDON_LOADED")
-profmenuEventFrame:SetScript("OnEvent", function(self, event, addonName)
-    if addonName == "ProfessionsMenu" then
-        -- Initialize saved variables and UI elements
-        UpdateButtonVisibility()
-        if IsTitanPanelLoaded() then
-            IntegrateWithTitanPanel()
-        end
-
-        -- Print startup messages
-        print("|cFFFFFF00[Professions Menu]|r Addon loaded.")
-        print("|cFFFFFF00[Professions Menu]|r Use /profmenu to toggle floating button.")
-        if IsTitanPanelLoaded() then
-            print("|cFFFFFF00[Professions Menu]|r Titan Panel detected and integrated.")
-        else
-            print("|cFFFFFF00[Professions Menu]|r Titan Panel not detected.")
-        end
-    end
-end)
+IntegrateWithTitanPanel()
