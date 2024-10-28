@@ -74,26 +74,14 @@ local function InitializeMageUtilsDropDown(self, level)
                 return
             end
             if faction == "Alliance" then
-            local spellName = GetSpellInfo(10059) -- Teleport: Stormwind
-                if not spellName then
-                    print("|cFFFFFF00[Mage Utils]|r You have not learned Teleport: Stormwind.")
-                    return
-                end
-            
                 -- Show the Teleport Frame
                 MageUtilsAllianceTeleportFrame:Show()
                 print("|cFFFFFF00[Mage Utils]|r Teleport frame opened.")
             end
             if faction == "Horde" then
-                local spellName = GetSpellInfo(10059) -- Teleport: Stormwind
-                    if not spellName then
-                        print("|cFFFFFF00[Mage Utils]|r You have not learned Teleport: Stormwind.")
-                        return
-                    end
-                
-                    -- Show the Teleport Frame
-                    MageUtilsHordeTeleportFrame:Show()
-                    print("|cFFFFFF00[Mage Utils]|r Teleport frame opened.")
+                -- Show the Teleport Frame
+                MageUtilsHordeTeleportFrame:Show()
+                print("|cFFFFFF00[Mage Utils]|r Teleport frame opened.")
             end
         end
          info.notCheckable = true

@@ -4,7 +4,7 @@
     <!-- MageUtils Alliance Teleport Frame -->
     <Frame name="MageUtilsAllianceTeleportFrame" hidden="true" movable="true" enableMouse="true">
         <Size>
-            <AbsDimension x="200" y="100"/>
+            <AbsDimension x="200" y="75"/>
         </Size>
         <Anchors>
             <Anchor point="CENTER"/>
