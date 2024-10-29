@@ -49,6 +49,9 @@ nunit-*.xml
 [Rr]eleasePS/
 dlldata.c
 
+# Resource data
+[Rr]esources/
+
 # BenchmarkDotNet Artifacts
 BenchmarkDotNet.Artifacts/
 
